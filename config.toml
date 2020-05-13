@@ -2,8 +2,6 @@ baseurl = "/"
 title = "Daniel Czarnievicz"
 theme = "hugo-creative-portfolio-theme"
 languageCode = "en-us"
-# Enable Google Analytics by entering your tracking code
-# googleAnalytics = ""
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [params]
@@ -29,15 +27,6 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
      # - click the confirm link in the email from www.formspree.io
      # - you're done. Happy mailing!
   # email = "you@yoursite.com"
-
-    # Optional Matomo analytics (formerly piwik)
-      # [params.analytics.matomo]
-      #  URL = "https://stats.example.com"
-      #  ID = "42"
-      #  # Track all subdomains with "*.example.com" (Optional)
-      #  domain = "www.example.com"
-      #  # Optional integrity check hash
-      #  hash = ""
 
   # Nav links in the side bar
   [[params.navlinks]]
