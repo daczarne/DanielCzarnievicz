@@ -39,7 +39,7 @@ vignettes/*.pdf
 .Renviron
 
 # R Blogdown subdirs
-content/
-public/
-static/
+.DS_Store
 themes/
+public/
+.idea/*
