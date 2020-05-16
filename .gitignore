@@ -43,3 +43,11 @@ vignettes/*.pdf
 themes/
 public/
 .idea/*
+
+# Other files
+.travis.yml
+DataSets/ENGIH/
+DataSets/INEShapeFiles/
+content/contact/
+static/portfolio/
+static/img/favicon.png
