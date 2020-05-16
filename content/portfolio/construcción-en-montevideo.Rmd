@@ -39,8 +39,7 @@ construccion <- readr::read_rds(path = here::here("DataSets/Construcción/constr
 ```{r plot_construccion}
 htmltools::div(
    class = "row",
-   construccion %>% 
-      plotly_construccion()
+   plotly_construccion(construccion)
 )
 ```
 

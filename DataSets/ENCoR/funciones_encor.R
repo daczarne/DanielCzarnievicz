@@ -34,6 +34,7 @@ plotly_questions_one <- function(q, th) {
          x = ~variable,
          y = ~prop,
          color = ~sexo,
+         colors = "Dark2",
          type = "bar",
          hovertemplate = ~base::paste0(
             "%{y:0.2%}"
@@ -89,6 +90,7 @@ plotly_question_motherhood <- function(q) {
          x = ~variable,
          y = ~prop,
          color = ~sexo,
+         colors = "Dark2",
          type = "bar",
          hovertemplate = ~base::paste0(
             "%{y:0.2%}"

@@ -100,26 +100,11 @@ plotly_construccion <- function(.data) {
       ) %>%
       plotly::config(
          locale = "en",
-         displayModeBar = TRUE,
-         displaylogo = FALSE,
-         modeBarButtonsToRemove = base::c(
-            "zoom2d",
-            "zoomIn2d",
-            "zoomOut2d",
-            "select2d",
-            "drawclosedpath",
-            "lasso2d",
-            "pan2d",
-            "drawrect",
-            "autoScale2d",
-            "hoverClosestCartesian",
-            "hoverCompareCartesian",
-            "toggleSpikelines"
-         )
+         displayModeBar = FALSE
       ) %>%
       htmlwidgets::onRender(
          "$(function() {
-            $('.updatemenu-item-text').click();
+            $('.updatemenu-button').click();
          });"
       )
 }
