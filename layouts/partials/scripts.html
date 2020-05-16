@@ -8,6 +8,44 @@
 <script src="{{ "js/owl.carousel.min.js" | absURL }}"></script>
 <script src="{{ "js/front.js" | absURL }}"></script>
 
+<!-- JS de librerías de R -->
+
+<!-- crosstalk -->
+<script src="{{ "rmarkdown-libs/crosstalk/js/crosstalk.js" | absURL }}"></script>
+<script src="{{ "rmarkdown-libs/crosstalk/js/crosstalk.js.map" | absURL }}"></script>
+<script src="{{ "rmarkdown-libs/crosstalk/js/crosstalk.min.js" | absURL }}"></script>
+<script src="{{ "rmarkdown-libs/crosstalk/js/crosstalk.min.js.map" | absURL }}"></script>
+
+<!-- d3 -->
+<script src="{{ "rmarkdown-libs/d3/d3.min.js" | absURL }}"></script>
+
+<!-- htmlwidgets -->
+<script src="{{ "rmarkdown-libs/htmlwidgets/htmlwidgets.js" | absURL }}"></script>
+
+<!-- jquery -->
+<script src="{{ "rmarkdown-libs/jquery/jquery.js" | absURL }}"></script>
+<script src="{{ "rmarkdown-libs/jquery/jquery.min.js" | absURL }}"></script>
+<script src="{{ "rmarkdown-libs/jquery/jquery.min.map" | absURL }}"></script>
+
+<!-- plotly binding -->
+<script src="{{ "rmarkdown-libs/plotly-binding/plotly.js" | absURL }}"></script>
+
+<!-- plotly locale es -->
+<script src="{{ "rmarkdown-libs/plotly-locale-es/es.js" | absURL }}"></script>
+
+<!-- plotly main -->
+<script src="{{ "rmarkdown-libs/plotly-main/plotly-latest.min.js" | absURL }}"></script>
+
+<!-- sankey -->
+<script src="{{ "rmarkdown-libs/sankey/sankey.js" | absURL }}"></script>
+<script src="{{ "rmarkdown-libs/sankey/d3-4.5.0/d3.min.js" | absURL }}"></script>
+
+<!-- sankey network binding -->
+<script src="{{ "rmarkdown-libs/sankeyNetwork-binding/sankeyNetwork.js" | absURL }}"></script>
+
+<!-- typedarray -->
+<script src="{{ "rmarkdown-libs/typedarray/typedarray.min.js" | absURL }}"></script>
+
 {{ if .Site.Params.analytics.matomo }}
-  {{ partial "_analytics/matomo.html" . }}
+{{ partial "_analytics/matomo.html" . }}
 {{ end }}
