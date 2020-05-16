@@ -25,23 +25,23 @@ knitr::opts_chunk$set(
 library(magrittr, quietly = TRUE)
 ```
 
-```{r}
-encor <- readr::read_rds(path = here::here("DataSets/ENCoR/encor.rds"))
-metodos_anticonceptivos <- readr::read_rds(path = here::here("DataSets/ENCoR/metodos_anticonceptivos.rds"))
-```
-
-```{r functions}
+```{r funciones}
 source(
   file = here::here("DataSets/ENCoR/funciones_encor.R"),
   encoding = "UTF-8"
 )
 ```
 
+```{r datos}
+encor <- readr::read_rds(path = here::here("DataSets/ENCoR/encor.rds"))
+metodos_anticonceptivos <- readr::read_rds(path = here::here("DataSets/ENCoR/metodos_anticonceptivos.rds"))
+```
+
 <br>
 
 **¿Cuál es la cantidad ideal de hijos que los uruguayos queremos tener?**
 
-```{r}
+```{r pregunta_ideales}
 htmltools::div(
    class = "row",
    plotly_questions_one(
@@ -53,7 +53,7 @@ htmltools::div(
 
 **Para los uruguayos, ¿el cuidado de los hijos debe ser tarea principalmente de la mujer?**
 
-```{r}
+```{r pregunta_motherhood}
 htmltools::div(
    class = "row",
    plotly_question_motherhood(
@@ -64,7 +64,7 @@ htmltools::div(
 
 **¿Qué métodos anticonceptivos utilizamos los uruguayos?** (comparación entre los métodos utilizados en la primer y la última relación al momento de realizada la encuesta)
 
-```{r}
+```{r pregunta_metodos}
 htmltools::div(
    class = "row",
    generar_sankey(
@@ -85,10 +85,10 @@ Foto aérea de Punta del Este cortesía de Jimmy Baikovicius. Podes encontrar ot
 
 ***
 
-```{r, include=FALSE}
+```{r set_locale, include=FALSE}
 base::Sys.setlocale(category = "LC_TIME", locale = "Spanish")
 ```
 
-```{r}
+```{r fecha_revision}
 base::cat(base::paste0("Última revisión: ", format(Sys.time(), "%d de %B de %Y")))
 ```

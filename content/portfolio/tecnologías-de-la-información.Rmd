@@ -9,24 +9,6 @@ weight: 3
 
 <!--more-->
 
-```{css, echo=FALSE}
-td {
-   
-   white-space: nowrap;
-   text-align: left;
-   float: left;
-   
-}
-
-.miembro img {
-   
-   height: 50px;
-   width: 50px;
-   border-radius: 50%;
-   
-}
-```
-
 ¿Qué tecnologías de la información utilizamos los uruguayos? ¿Qué tan seguido utilizamos Internet? ¿Y las redes sociales? Respuestas a esto y mucho más encontrarás en nuestra App. En ella analizamos los resultados de la Encuesta de Usos de las Tecnologías de la Información y Comunicación (2016) del Instituto Nacional de Estadística ([INE](http://www.ine.gub.uy/)) y la Agencia de Gobierno Electrónico y Sociedad de la Información y del Conocimiento ([AGESIC](https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/)). 
 
 ```{r setup,  echo=FALSE, message=FALSE, warning=FALSE}
@@ -41,22 +23,22 @@ knitr::opts_chunk$set(
 library(magrittr, quietly = TRUE)
 ```
 
-```{r}
-eutic <- readr::read_rds(path = here::here("DataSets/EUTIC/eutic.rds"))
-```
-
-```{r functions}
+```{r funciones}
 source(
   file = here::here("DataSets/EUTIC/funciones_eutic.R"),
   encoding = "UTF-8"
 )
 ```
 
+```{r datos}
+eutic <- readr::read_rds(path = here::here("DataSets/EUTIC/eutic.rds"))
+```
+
 <br>
 
 **¿Tenemos conexión a Internet en nuestros hogares? ¿Varía entre hogares de Montevideo y hogares del interior?**
 
-```{r}
+```{r pregunta_internet_hogares}
 htmltools::div(
    class = "row",
    eutic %>%
@@ -69,7 +51,7 @@ htmltools::div(
 
 **Quienes utilizan Internet en el celular, ¿con qué frecuencia lo hacen? ¿Varía según el sexo de la persona?**
 
-```{r}
+```{r pregunta_internet_celulares}
 htmltools::div(
    class = "row",
    eutic %>%
@@ -86,7 +68,7 @@ htmltools::div(
 
 **Los uruguayos, ¿compramos y vendemos por Interner? ¿Depende esto del nivel educativo de las personas?**
 
-```{r}
+```{r pregunta_transacciones_por_internet}
 htmltools::div(
    class = "row",
    eutic %>%
@@ -110,10 +92,10 @@ Foto de los palmares de Rocha tomada del [portal oficial de turismo en Rocha](ht
 
 ***
 
-```{r, include=FALSE}
+```{r set_locale, include=FALSE}
 base::Sys.setlocale(category = "LC_TIME", locale = "Spanish")
 ```
 
-```{r}
+```{r fecha_revision}
 base::cat(base::paste0("Última revisión: ", format(Sys.time(), "%d de %B de %Y")))
 ```

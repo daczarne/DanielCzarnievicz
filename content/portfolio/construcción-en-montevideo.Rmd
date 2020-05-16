@@ -36,7 +36,7 @@ source(
 construccion <- readr::read_rds(path = here::here("DataSets/Construcción/construccion.rds"))
 ```
 
-```{r}
+```{r plot_construccion}
 htmltools::div(
    class = "row",
    construccion %>% 
@@ -52,10 +52,10 @@ Foto aérea de Pocitos cortesía de Jimmy Baikovicius. Podés encontrar esta y o
 
 ***
 
-```{r, include=FALSE}
+```{r set_locale, include=FALSE}
 base::Sys.setlocale(category = "LC_TIME", locale = "Spanish")
 ```
 
-```{r}
+```{r fecha_revision}
 base::cat(base::paste0("Última revisión: ", format(Sys.time(), "%d de %B de %Y")))
 ```
