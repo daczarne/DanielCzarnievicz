@@ -1,0 +1,94 @@
+---
+date: '2020-04-13'
+draft: false
+image: img/portfolio/punta-del-este.jpg
+showonlyimage: false
+title: Comportamientos Reproductivos
+weight: 2
+---
+
+¿Qué ideales y actitudes tenemos los uruguayos sobre la fecundidad y la crianza de los hijos? ¿Qué métodos anticonceptivos utilizamos? ¿Tenemos la cantidad de hijos que deseamos tener? ¿Los tenemos a la edad que los deseamos tener?
+
+<!--more-->
+
+¿Qué ideales y actitudes tenemos los uruguayos sobre la fecundidad y la crianza de los hijos? ¿Qué métodos anticonceptivos utilizamos? ¿Tenemos la cantidad de hijos que deseamos tener? ¿Los tenemos a la edad que los deseamos tener? Respuestas a esto y mucho más encontrarás en mi App. En ella analizo los resultados de la Encuesta Nacional de Comportamientos Reproductivos (2015) del Instituto Nacional de Estadística ([INE](http://www.ine.gub.uy/)).
+
+```{r setup,  echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+   echo = FALSE,
+   message = FALSE,
+   warning = FALSE,
+   eval = TRUE,
+   error = FALSE,
+   comment = ""
+)
+library(magrittr, quietly = TRUE)
+```
+
+```{r}
+encor <- readr::read_rds(path = here::here("DataSets/ENCoR/encor.rds"))
+metodos_anticonceptivos <- readr::read_rds(path = here::here("DataSets/ENCoR/metodos_anticonceptivos.rds"))
+```
+
+```{r functions}
+source(
+  file = here::here("DataSets/ENCoR/funciones_encor.R"),
+  encoding = "UTF-8"
+)
+```
+
+<br>
+
+**¿Cuál es la cantidad ideal de hijos que los uruguayos queremos tener?**
+
+```{r}
+htmltools::div(
+   class = "row",
+   plotly_questions_one(
+      q = "cantidad_ideal_hijos",
+      th = "Sí"
+   )
+)
+```
+
+**Para los uruguayos, ¿el cuidado de los hijos debe ser tarea principalmente de la mujer?**
+
+```{r}
+htmltools::div(
+   class = "row",
+   plotly_question_motherhood(
+      q = "cuidado_hijos_mujer_ppal"
+   )
+)
+```
+
+**¿Qué métodos anticonceptivos utilizamos los uruguayos?** (comparación entre los métodos utilizados en la primer y la última relación al momento de realizada la encuesta)
+
+```{r}
+htmltools::div(
+   class = "row",
+   generar_sankey(
+      .data = metodos_anticonceptivos,
+      var_1 = "Primer relación",
+      var_2 = "Última relación"
+   )
+)
+```
+
+<br>
+
+**¿Querés saber más?**
+
+Visitá mi App haciendo click en el siguiente [link](https://daczarne.shinyapps.io/AppENCoR/). Tú elegís las preguntas, la App te da las respuestas.
+
+Foto aérea de Punta del Este cortesía de Jimmy Baikovicius. Podes encontrar otras asombrosas fotos de nuestro país en su perfil de [flickr](https://www.flickr.com/photos/jikatu/).
+
+***
+
+```{r, include=FALSE}
+base::Sys.setlocale(category = "LC_TIME", locale = "Spanish")
+```
+
+```{r}
+base::cat(base::paste0("Última revisión: ", format(Sys.time(), "%d de %B de %Y")))
+```
