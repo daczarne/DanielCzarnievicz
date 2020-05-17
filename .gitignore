@@ -44,7 +44,6 @@ public/
 .idea/*
 
 # Other files
-.travis.yml
 DataSets/ENGIH/
 DataSets/INEShapeFiles/
 static/portfolio/
