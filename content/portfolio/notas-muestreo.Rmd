@@ -1,0 +1,311 @@
+---
+date: '2020-04-13'
+draft: false
+title: "Notas sobre muestreo"
+weight: 0
+output: blogdown::html_page
+---
+
+Resumenes de los cursos de muestreo el Instituto de Estadística (IESTA - FCEA - Udelar).
+
+<!--more-->
+
+```{r setup,  echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+   echo = FALSE,
+   message = FALSE,
+   warning = FALSE,
+   eval = TRUE,
+   error = FALSE,
+   comment = ""
+)
+library(magrittr, quietly = TRUE)
+```
+
+Aquí podrás encontrar algunos resumenes sobre las técnicas de muestreo cubiertas en los cursos de muestreo del IESTA. El material que aquí se presenta está basado en el libro *Model Assisted Survey Sampling* de Särndal, Swensson y Wretman.
+
+## Nociones básicas sobre muestreo de poblaciones finitas {#Nociones-básicas-sobre-muestreo-de-poblaciones-finitas}
+
+### Muestreo sin reposición
+
+Sea la poblacón $U = \{1; \ldots; k; \ldots; N \}$ donde $N$ es conocido, pero los valores de $y_k$ son desconocidos. Se busca estimar el total de la variable $y$, $t_y = \sum\nolimits_U y_k$, o de la media poblacional $\bar{y}_U = \frac{t_y}{N} = \frac{1}{N} \sum\nolimits_U y_k$. Se selecciona una *muestra* de la población, la cual se utiliza para estimar el total y la media.
+
+Llamamos *diseño muestral* a la función $p(.)$ tal que: 
+$${\color{red} \star} \: \: p(s) = \Pr (S=s) = \Pr ( \text{seleccionar la muestra } s \, | \, \text{estrategia de selección})$$
+$p(s)$ es entonces la función de distribución de probabilidad de una variable aleatoria $S$ con recorrido $\mathscr{S} = \{s_1; s_2; \ldots \}$. $\mathscr{S}$ tiene $2^N$ elementos, contando $\emptyset$ y $U$. Dado que es una función de probabilidad, $p(s) \geq 0 \: \forall s \in \mathscr{S}$, y $\sum\limits_{ s \in \mathscr{S}} p(s) = 1$.
+
+La inclusión de un elemento $k$ en la muestra puede indicarse mediante la indicadora:
+$${\color{red} \star} \: \: I_k = \left\{
+\begin{array}{c c c}
+1 & \text{si} & k \in s \\
+0 & \text{si} & k \notin s
+\end{array} \right.$$
+
+Definimos la *probabilidad de inclusión de primer orden* como: 
+$${\color{red} \star } \: \: \pi_k = \Pr (k \in s) = \Pr (I_k = 1) = \sum\limits_{s \ni k} p(s)$$
+Existen $N$ cantidades $\pi_1; \ldots; \pi_k; \ldots; \pi_N$ asociadas a un diseño $p(.)$. Si $\pi_k \geq 0 \; \forall k \in U$ decimos que el muestreo es un *muestreo probabilístico*.
+
+Definimos la *probabilidad de inclusión de segundo orden* como: 
+$${\color{red} \star } \: \: \pi_{kl} = \Pr (k;l \in s) = \Pr (I_k I_l = 1) = \sum\limits_{\substack{ s \ni k \\ s \ni l}} p(s)$$
+Existen $\frac{N(N-1)}{2}$ cantidades $\pi_{12}; \pi_{13}; \ldots; \pi_{kl}; \ldots; \pi_{N-1,N}$ asociadas a un diseño $p(.)$, donde $\pi_{kl} = \pi_{lk}$ y $\pi_{kk} = \pi_k$. Si $\pi_{kl} \geq 0 \; \forall k,l \in U$ decimos que el diseño es *medible*. Solo en el caso de diseños medibles es posible obtener estimadores insesgados de la varianza.
+
+Para todo diseño se cumple que:
+
+${\color{red} \star} \: \: {\E}_{p(s)}(I_k) = \pi_k \; \; \; \forall k \in U$
+
+${\color{red} \star} \: \: {\V}_{p(s)}(I_k) = \pi_k (1 - \pi_k) \; \; \; \forall k \in U$
+
+${\color{red} \star} \: \: \Delta_{kl} = {\C}_{p(s)}(I_k;I_l) = \pi_{kl} - \pi_k \, \pi_l \; \; \; \forall k \neq l \in U$
+
+Llamamos $n_S$ al tamaño muestral (es decir, al cardinal del conjunto $s$). Para todo diseño se cumple que:
+
+${\color{red} \star} \: \: n_S = \sum\nolimits_U I_k$
+
+${\color{red} \star} \: \: {\E}_{p(s)}(n_S) = \sum\nolimits_U \pi_k$
+
+${\color{red} \star} \: \: {\V}_{p(s)}(n_S) = \sum\nolimits_U \pi_k(1-\pi_k) + \mathop{\sum\sum\nolimits_U}_{\!\!\!\!\!\! k \neq l} (\pi_{kl} - \pi_k \, \pi_l) = \sum\nolimits_U \pi_k - \left( \sum\nolimits_U \pi_k \right)^2 + \mathop{\sum\sum\nolimits_U}_{\!\!\!\!\!\! k \neq l} \pi_{kl}$
+
+Adicionalmente, si $p(s)$ es de tamaño fijo $n$, entonces:
+
+${\color{red} \star} \: \: {\mathbf{E}}_{p(s)}(n_S) = \sum\nolimits_U \pi_k = n$
+
+${\color{red} \star} \: \: \mathop{\sum\sum\nolimits_U}_{\!\!\!\!\!\! k \neq l} \pi_{kl} = n(n-1)$
+
+${\color{red} \star} \: \: \sum\limits_{\substack{ l \in U \\ l \neq k}} \pi_{kl} = \sum\limits_{\substack{ l \in U \\ l \neq k}} {\E}_{p(s)}(I_k I_l) = {\E}_{p(s)} \Big[ I_k \left( \sum\nolimits_U I_l - I_k \right) \Big] = {\E}_{p(s)} \Big( I_k \underbrace{\sum\nolimits_U I_l}_{=n} \Big) - {\E}_{p(s)}(I_l^2) =$
+
+$$= {\E}_{p(s)}(I_k n) - {\E}_{p(s)}(I_k) = n \, {\E}_{p(s)}(I_k) - {\E}_{p(s)}(I_k) = n \, \pi_k - \pi_k = (n - 1) \pi_k$$
+
+### El estimador $\hat{t}_{\pi}$
+
+El principio de $\pi$-expansión implica que el elemento muestral $k$ representa $^1\!/_{\pi_k}$ elementos en la población. Sea el siguiente estimador de $t_y$: 
+$${\color{red} \star} \: \: \hat{t}_{\pi} = \sum\nolimits_s y_k^{\checkmark} = \sum\nolimits_s \frac{y_k}{\pi_k}$$
+$${\color{red} \star} \: \: {\E}_{p(s)}(\hat{t}_{\pi}) = {\E}_{p(s)} \left( \sum\nolimits_s \frac{y_k}{\pi_k} \right) = \sum\nolimits_U {\E}_{p(s)}(I_k) \, \frac{y_k}{\pi_k} = \sum\nolimits_U \pi_k \, \frac{y_k}{\pi_k} = \sum\nolimits_U y_k = t_y$$
+$${\color{red} \star} \: \: {\V}_{p(s)}(\hat{t}_{\pi}) = {\V}_{p(s)} \left( \sum\nolimits_s y_k^{\checkmark} \right) = \sum\nolimits_U {\V}_{p(s)}(I_k) \, y_k^{\checkmark^2} + \mathop{\sum\sum\nolimits_U}_{\!\!\!\!\!\! k \neq l} {\C}_{p(s)}(I_k;I_l) \, y_k^{\checkmark} \, y_l^{\checkmark} =$$
+$$= \sum\nolimits_U \Delta_{kk} \, y_k^{\checkmark} \, y_k^{\checkmark} + \mathop{\sum\sum\nolimits_U}_{\!\!\!\!\!\! k \neq l} \Delta_{kl} \, y_k^{\checkmark} \, y_l^{\checkmark} = \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark} \, y_l^{\checkmark}$$
+$${\color{red} \star} \: \: \hat{\V}_{p(s)}(\hat{t}_{\pi}) = \sum\sum\nolimits_s \Delta_{kl}^{\checkmark} \, y_k^{\checkmark} \, y_l^{\checkmark}$$
+$${\color{red} \star} \: \: {\E}_{p(s)} \Big( \hat{\V}_{p(s)}(\hat{t}_{\pi}) \Big) = {\E}_{p(s)} \left( \sum\sum\nolimits_s \Delta_{kl}^{\checkmark} \, y_k^{\checkmark} \, y_l^{\checkmark} \right) = \sum\sum\nolimits_U {\E}_{p(s)}(I_k;I_l) \Delta_{kl}^{\checkmark} \, y_k^{\checkmark} \, y_l^{\checkmark} =$$
+$$= \sum\sum\nolimits_U \pi_{kl} \, \frac{\Delta_{kl}}{\pi_{kl}} \, y_k^{\checkmark} \, y_l^{\checkmark} = \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark} \, y_l^{\checkmark} = {\V}_{p(s)}(\hat{t}_{\pi}) $$
+
+Si el diseño es de tamaño fijo, son válidas las siguientes expresiones: 
+$${\color{red} \star} \: \: {\V}_{p(s)}(\hat{t}_{\pi}) = - \frac{1}{2} \sum\sum\nolimits_U \Delta_{kl} \big( y_k^{\checkmark} - y_l^{\checkmark} \big)^2$$
+$${\color{red} \star} \: \: \hat{\V}_{p(s)}(\hat{t}_{\pi}) = - \frac{1}{2} \sum\sum\nolimits_s \Delta_{kl}^{\checkmark} \big( y_k^{\checkmark} - y_l^{\checkmark} \big)^2$$
+$$\begin{array}{rcl}
+{\color{red} \star} \: \: {\E}_{p(s)} \Big( \hat{\V}_{p(s)}(\hat{t}_{\pi}) \Big) & = & {\E}_{p(s)} \left( - \frac{1}{2} \sum\sum\nolimits_s \Delta_{kl}^{\checkmark} \big( y_k^{\checkmark} - y_l^{\checkmark} \big)^2 \right) \\ \\
+   & = & - \frac{1}{2} \sum\sum\nolimits_U {\E}_{p(s)} \left( I_k; I_l \right) \Delta_{kl}^{\checkmark} \big( y_k^{\checkmark} - y_l^{\checkmark} \big)^2 \\ \\
+   & = & - \frac{1}{2} \sum\sum\nolimits_U {\E}_{p(s)} ( I_k; I_l ) \Delta_{kl}^{\checkmark} \big( y_k^{\checkmark} - y_l^{\checkmark} \big)^2 \\ \\
+   & = & - \frac{1}{2} \sum\sum\nolimits_U \Delta_{kl} \big( y_k^{\checkmark} - y_l^{\checkmark} \big)^2 \\ \\
+   & = & {\V}_{p(s)}(\hat{t}_{\pi})
+\end{array}$$
+
+*Demostración*:
+
+$$\begin{array}{rcl}
+{\V}_{p(s)}(\hat{t}_{\pi}) & = & - \frac{1}{2} \sum\sum\nolimits_U \Delta_{kl} \big( y_k^{\checkmark} - y_l^{\checkmark} \big)^2 \\ \\
+   & = & - \frac{1}{2} \sum\sum\nolimits_U \Delta_{kl} \big( y_k^{\checkmark^2} - 2 \, y_k^{\checkmark} \, y_l^{\checkmark} + y_l^{\checkmark^2} \big) \\ \\
+   & = & - \frac{1}{2} \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark^2} + \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark} \, y_l^{\checkmark} - \frac{1}{2} \sum\sum\nolimits_U \Delta_{kl} \, y_l^{\checkmark^2} \\ \\
+   & = & \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark} \, y_l^{\checkmark} - \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark^2} \\ \\
+   & = & \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark} \, y_l^{\checkmark} - \sum\limits_{k \in U} y_k^{\checkmark^2} \sum\limits_{l \in U} \Delta_{kl} \\ \\
+   & = & \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark} \, y_l^{\checkmark} - \sum\limits_{k \in U} y_k^{\checkmark^2} \sum\limits_{l \in U} \big( \pi_{kl} - \pi_k \, \pi_l \big) \\ \\
+   & = & \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark} \, y_l^{\checkmark} - \sum\limits_{k \in U} y_k^{\checkmark^2} \left[ \sum\limits_{l \in U} \pi_{kl} - \sum\limits_{l \in U} \pi_k \, \pi_l \right] \\ \\
+   & = & \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark} \, y_l^{\checkmark} - \sum\limits_{k \in U} y_k^{\checkmark^2} \left[ n \, \pi_k - \pi_k \, \sum\limits_{l \in U} \pi_l \right] \\ \\
+   & = & \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark} \, y_l^{\checkmark} - \sum\limits_{k \in U} y_k^{\checkmark^2} \big( n \, \pi_k - \pi_k \, n \big) \\ \\
+   & = & \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark} \, y_l^{\checkmark}
+\end{array}$$
+
+### Muestreo con reposición
+
+Llamamos muestreo (no diseño) con reposición a los esquemas en los que los elementos son repuestos en la población luego de ser seleccionados. Por tanto, dos (o más) extracciones podrían producir el mismo elemento. Llamamos $k_i$ al elemento seleccionado en la $i$-ésima extracción con $i=1;\ldots;m$. Al vector que contiene todos los elementos seleccionados lo llamamos *muestra ordenada*: $os = \{k_1; \ldots; k_m \}$. Llamamos *multiplicidad* a la cantidad de veces que un mismo elemento fue seleccionado. Toda muestra ordenada, $os$, induce una muestra, $s$, la cual contiene a los elementos sorteados una única vez (se pierde el orden).
+$$s=\{k: k = k_i \text{ para alguna extracción } i=1;\ldots;m \}$$
+
+Sean $p_1; \ldots; p_k; \ldots; p_N$ números positivos tales que $\sum\nolimits_U p_k = 1$. Dado que los elementos se reponen en la población una vez seleccionado:
+$$p_k = \Pr(\text{seleccionar el elemento } k \text{ en la } i \text{-ésima extracción}) \; \; \forall k \in U$$
+
+De esta forma, la probabilidad de obtener una determinada muestra ordenada será:
+$$p(os) = \Pr \big(os = \{k_1; \ldots; k_m \} \big) = p_{k_1} \times \ldots \times p_{k_m} = \prod\limits_{i=1}^{m} p_{k_i} $$
+
+Sea la variable aleatoria $r_k$, la cual mide la cantidad de veces que el elemento $k$ es extraído en las $m$ extracciones. Por lo tanto, $r_k \sim Bin(m; p_k)$. Si $N$ es lo suficientemente grande, $r_k \overset{a}{\sim} \text{Poisson}(m \, p_k)$.
+
+$${\color{red} \star} \: \: \Pr(\text{extraer } r_0 \text{ veces el elemento } k ) = \Pr (r_k = r_0) = {{m}\choose{r}} (p_k)^r ( 1 - p_k )^{m-r}$$
+
+$${\color{red} \star} \: \: {\E}(r_k) = m \, p_k$$
+
+$$\color{red} \star \color{black} \: \: {\V}(r_k) = m \, p_k (1 - p_k) \doteq m \, p_k$$
+
+La probabilidad de que el elemento $k$ nunca sea seleccionado en las $m$ extracciones, y la probabilidad de que el elemento $k$ sea seleccionado al menos una vez en las $m$ extracciones son:\footnote{Si $m=1$, entonces $\pi_k = p_k$.}
+
+$${\color{red} \star} \: \: \Pr (\text{no selecionar } k \text{ en ninguna de las } m \text{ extraciciones}) = \Pr (r_k = 0) = (1 - p_k)^m$$
+
+$${\color{red} \star} \: \: \Pr (\text{el elemento } k \text{ sea extraido}) = \Pr (r_k \geq 1) = 1 - \Pr (r_k < 1) = 1 - \Pr (r_k = 0) = 1 - (1 - p_k)^m$$
+
+Por lo tanto, las probabilidades de inclusión de primer y segundo orden serán:
+
+$${\color{red} \star} \: \: \pi_k = \Pr (k \in S) = 1 - (1 - p_k)^m$$
+
+$${\color{red} \star} \: \: \pi_{kl} = \Pr (k;l \in S) = \Pr (k \in S) \, \Pr (l \in S) = \big[ 1 - (1-p_k)^m \big] \big[ 1 - (1-p_l)^m \big] =$$
+$$= 1 - (1-p_l)^m - (1-p_k)^m + (1-p_k)^m (1-p_l)^m =$$
+$$= 1 - (1-p_k)^m - (1-p_l)^m + \big[ (1-p_k) (1-p_l) \big]^m =$$
+$$= 1 - \big[ (1-p_k)^m + (1-p_l)^m - (1 - p_k - p_l + p_k \, p_l)^m \big] \: \: \forall k \neq l \in U$$ 
+
+Si $p_k = p_l \: \: \forall k;l \in U$
+
+$${\color{red} \star} \: \: \pi_{kl} = 1 - \big[ 2(1 - p_k)^m - (1 - 2p_k + p_k^2)^m \big] =$$
+$$= 1 - \big[ 2(1 - p_k)^m - (1 - p_k)^{2m} \big]  \: \: \forall k \neq l \in U$$
+
+### El estimador $\hat{t}_{pwr}$
+
+En muestreos con reposición $t_y$ se estima utilizando un estimador $p$-expandido (en lugar del estimador $\pi$-expandido):
+$${\color{red} \star} \: \: \hat{t}_{pwr} = \frac{1}{m} \sum\limits_{i=1}^{m} \frac{y_k}{p_k}$$
+
+Para hallar las propiedades estadísticas del estimador $\hat{t}_{pwr}$ se definen las variables $Z_i = \frac{y_{k_i}}{p_{k_i}}$. De esta forma, $\hat{t}_{pwr} = \frac{1}{m} \sum\limits_{i=1}^{m} Z_i = \bar{Z}$. Dado que las $Z_i$ son iid: 
+$${\color{red} \star} \: \: \Pr \left( Z_k = \frac{y_k}{p_k} \right) = p_k \: \: \: \forall i=1;\ldots;m$$
+$${\color{red} \star} \: \: {\E}(Z_i) = \sum\nolimits_U Z_i \, \Pr \left( Z_k = \frac{y_k}{p_k} \right) = \sum\nolimits_U \frac{y_k}{p_k} \, \Pr \left( Z_k = \frac{y_k}{p_k} \right) = \sum\nolimits_U \frac{y_k}{p_k} \, p_k = \sum\nolimits_U y_k = t_y$$ 
+$${\color{red} \star} \: \: \V(Z_i) = \E \Big[ (Z_i - t_y )^2 \Big] = \E(Z_i^2) - t_y^2 = \sum\nolimits_U \frac{y_k^2}{p_k} - t_y^2 = \sum\nolimits_U \frac{y_k^2}{p_k} - 2 \, t_y^2 + t_y^2 =$$
+$$= \sum\nolimits_U \frac{y_k^2}{p_k} - 2 \, t_y \sum\nolimits_U y_k + t_y^2 \sum\nolimits_U p_k = \sum\nolimits_U \left[ \frac{y_k^2}{p_k} - 2 \, t_y \, y_k + t_y^2 \, p_k \right] =$$
+$$= \sum\nolimits_U \left[ \left( \frac{y_k}{p_k} \right)^2 - 2 \, t_y \left( \frac{y_k}{p_k} \right) + t_y^2 \right] p_k = \sum\nolimits_U \left[ \left( \frac{y_k}{p_k} - t_y \right)^2 p_k \right] = V_i$$
+$${\color{red} \star} \: \: {\E}_{p(os)} \big( \hat{t}_{pwr} \big) = \E \big( \bar{Z} \big) = \E \left( \frac{1}{m} \sum\limits_{i=1}^{m} z_i \right) = \frac{1}{m} \sum\limits_{i=1}^{m} \E(Z_i) = \frac{1}{m} (m, \, t_y) = t_y $$
+$${\color{red} \star} \: \: {\V}_{p(os)} \big( \hat{t}_{pwr} \big) = {\V} \big( \bar{Z} \big) = \frac{1}{m} {\V} (Z_i) = \frac{1}{m} \sum\nolimits_U \left[ \left( \frac{y_k}{p_k} - t_y \right)^2 p_k \right] = \frac{V_i}{m}$$
+$${\color{red} \star} \: \: \hat{V}_i = \frac{1}{m - 1} \sum\limits_{i=1}^{m} \left( \frac{y_k}{p_k} - \hat{t}_{pwr} \right)^2$$
+$${\color{red} \star} \: \: \hat{\V}_{p(os)} \big( \hat{t}_{pwr} \big) = \frac{\hat{V}_i}{m} = \frac{1}{m(m-1)} \sum\limits_{i=1}^{m} \left( \frac{y_k}{p_k} - \hat{t}_{pwr} \right)^2$$
+$${\color{red} \star} \: \: {\E}_{p(os)} \Big( \hat{\V}_{p(os)} \big( \hat{t}_{pwr} \big) \Big) = {\E}_{p(os)} \Big( \hat{\V}(\bar{Z}) \Big) = \frac{1}{m} \, {\E}_{p(os)} \Big( \hat{\V}(Z_i) \Big) = \frac{1}{m} \, {\V}(Z_i) = \frac{V_i}{m} \Leftrightarrow$$
+$$\Leftrightarrow \hat{V}_i = \frac{1}{m-1} \sum\limits_{i=1}^{m} \big( Z_i - \bar{Z} \big)^2 = \frac{1}{m-1} \sum\limits_{i=1}^{m} \left( \frac{y_k}{p_k} - \hat{t}_{pwr} \right)^2$$
+$$\therefore \hat{\V}_{p(os)} \big( \hat{t}_{pwr} \big) \text{ es insesgada para } {\V}_{p(os)} \big( \hat{t}_{pwr} \big)$$
+
+$$\text{Si } y_k = c \, p_k \: \: \forall k \in U \Rightarrow t_y = \sum\nolimits_U y_k = \sum\nolimits_U c \, p_k = c \underbrace{\sum\nolimits_U p_k}_{=1} = c \Rightarrow$$
+$$\Rightarrow {\V}_{p(os)} \big( \hat{t}_{pwr} \big) = \frac{1}{m} \sum\nolimits_U \left( \frac{y_k}{p_k} - t_y \right)^2 p_k = \frac{1}{m} \sum\nolimits_U \left( \frac{cp_k}{p_k} - c \right)^2 p_k = \frac{1}{m} \sum\nolimits_U \left( c - c \right)^2 p_k = 0$$
+
+En la práctica no es posible establecer $y_k = c \, p_k$. Pero sí es posible establecer $p_k = \frac{x_k}{\sum\nolimits_U x_k} \: \: \forall k \in U$, donde $x_k$ es una variable auxiliar (es decir, $x_k$ y $y_k$ están altamente correlacionadas).
+
+### El estimador $\hat{t}_{\pi}$ en el diseño ordenado
+
+$${\color{red} \star } \: \: \hat{t}_{\pi} = \sum\nolimits_s y_k^{\checkmark} = \sum\nolimits_s \frac{y_k}{\pi_k} = \sum\nolimits_s \frac{y_k}{1 - (1 - p_k)^m}$$
+
+El cual es insesgado para $t_y$, y la expresión para su varianza y el estimador de su varianza son:
+$${\color{red} \star } \: \: {\V}_{p(s)} \big( \hat{t}_{\pi} \big) = \sum\sum\nolimits_U \Delta_{kl} \, y_k^{\checkmark} \, y_l^{\checkmark}$$
+$${\color{red} \star } \: \: \hat{\V}_{p(s)} \big( \hat{t}_{\pi} \big) = \sum\sum\nolimits_s \Delta_{kl}^{\checkmark} \, y_k^{\checkmark} \, y_l^{\checkmark}$$
+
+No se pueden comparar los estimadores $\hat{t}_{pwr}$ y $\hat{t}_{\pi}$. Ambos son insesgados, pero no se pude concluir sobre sus varianzas. La varianza del $\hat{t}_{pwr}$ depende de los valores de $y_k$, lo cuales son desconocidos.
+
+### El estimador $\hat{t}_{alt}$
+
+$${\color{red} \star } \: \: \hat{t}_{alt} = N \, \bar{y}_S = \frac{N}{n_S} \sum\nolimits_s y_k$$
+
+Este estimador tiene como inconveniente que el tamaño muestral $n_S$ es aleatorio. En general, $\hat{t}_{alt}$ tiene menor varianza que $\hat{t}_{pwr}$ o $\hat{t}_{\pi}$
+
+### Descomposición de la varianza
+
+Supongamos que la población $ U = \{ 1; \ldots; k; \ldots; N \}$ se encuentra particionada en $a$ grupos de tamaño $n$, $\{ S_1; \ldots; S_r, \ldots; S_a \}$. Luego entonces:
+$$\sum\nolimits_U \big( y_k - \bar{y}_U \big)^2 = \sum\limits_{r=1}^{a} \sum\nolimits_{S_r} \big( y_k - \bar{y}_U \big)^2 = \sum\limits_{r=1}^{a} \left[ \sum\nolimits_{S_r} \Big( ( y_k - \bar{y}_{S_r} ) + ( \bar{y}_{S_r} - \bar{y}_U ) \Big)^2 \right] =$$
+$$= \sum\limits_{r=1}^{a} \Bigg[ \sum\nolimits_{S_r} \big( y_k - \bar{y}_{S_r} \big)^2 + 2 \sum\nolimits_{S_r} \big( y_k - \bar{y}_{S_r} \big) \big( \bar{y}_{S_r} - \bar{y}_U \big) + \sum\nolimits_{S_r} \big( \bar{y}_{S_r} - \bar{y}_U \big)^2 \Bigg] =$$
+$$= \sum\limits_{r=1}^{a} \Bigg[ \sum\nolimits_{S_r} \big( y_k - \bar{y}_{S_r} \big)^2 + 2 \, \big( \bar{y}_{S_r} - \bar{y}_U \big) \underbrace{ \sum\nolimits_{S_r} \big( y_k - \bar{y}_{S_r} \big) }_{=0} + \sum\nolimits_{S_r} \big( \bar{y}_{S_r} - \bar{y}_U \big)^2 \Bigg] =$$
+$$= \sum\limits_{r=1}^{a} \Bigg[ \sum\nolimits_{S_r} \big( y_k - \bar{y}_{S_r} \big)^2 + \sum\nolimits_{S_r} \big( \bar{y}_{S_r} - \bar{y}_U \big)^2 \Bigg] =$$
+$$= \sum\limits_{r=1}^{a} \sum\nolimits_{S_r} \big( y_k - \bar{y}_{S_r} \big)^2 + \sum\limits_{r=1}^{a} \sum\nolimits_{S_r} \big( \bar{y}_{S_r} - \bar{y}_U \big)^2 =$$
+$$= \sum\limits_{r=1}^{a} \sum\nolimits_{S_r} \big( y_k - \bar{y}_{S_r} \big)^2 + \sum\limits_{r=1}^{a} n \big( \bar{y}_{S_r} - \bar{y}_U \big)^2$$
+
+Por lo tanto, tenemos que:
+$$\underbrace{ \sum\nolimits_U \big( y_k - \bar{y}_U \big)^2 }_{SST} = \underbrace{ \sum\limits_{r=1}^{a} \sum\nolimits_{S_r} \big( y_k - \bar{y}_{S_r} \big)^2 }_{SSW} + \underbrace{ \sum\limits_{r=1}^{a} n \big( \bar{y}_{S_r} - \bar{y}_U \big)^2 }_{SSB} \Rightarrow \color{blue}\boxed{ SST = SSW + SSB }$$
+
+### Tamaño muestral
+
+Supongamos que se quiere estimar $t_y$ usando el estimador $\hat{t}_{y}$ y el estimador de su varianza $\hat{V}_{p(s)}(\hat{t}_y)$. Supongamos que ambos estimadores son (aprox) insesgados y que es razonable suponer que:
+$$\frac{\hat{t}_y - t_y}{\sqrt{V_{p(s)}(\hat{t}_y)}} \overset{a}{\sim} \text{N}(0;1)$$ 
+
+Buscamos un $\E(n_S)$ tal que para una precisión dada, $\varepsilon > 0$, y un nivel de confianza dado, $0 < \alpha < 1$, nos permita plantear:
+$$\Pr \big(|\hat{t}_y - t_y| < \varepsilon \big) \doteq 1 - \alpha \Rightarrow \Pr \left(\hat{t}_y - z_{1 - \, ^{\alpha}\!/_2} \sqrt{\hat{V}_{p(s)}(\hat{t}_y)} < t_y < \hat{t}_y + z_{1 - \, ^{\alpha}\!/_2} \sqrt{\hat{V}_{p(s)}(\hat{t}_y)} \right) \doteq 1 - \alpha$$
+$$\Pr \big(|\hat{t}_y - t_y| < \varepsilon \big) \doteq 1 - \alpha \Rightarrow \Pr \left( \frac{|\hat{t}_y - t_y|}{\sqrt{V_{p(s)}(\hat{t}_y)}} < \frac{\varepsilon}{\sqrt{V_{p(s)}(\hat{t}_y)}} \right) \doteq 1 - \alpha$$
+
+Si $\frac{\varepsilon}{\sqrt{{\V}_{p(s)}(\hat{t}_y)}} \doteq z_{1 - \, ^{\alpha}\!/_2} \Rightarrow \varepsilon^2 \doteq z_{1 - \, ^{\alpha}\!/_2}^2 {\V}_{p(s)}(\hat{t}_y)$, donde $\varepsilon$ y $\alpha$ están fijos y, en general, ${\V}_{p(s)}(\hat{t}_y)$ depende de $n$ y de $S^2_{y_U}$. Luego si se cuenta con una buena estimación de $S^2_{y_U}$, se puede despejar $n$. 
+
+Para un tamaño de muestra fijo, si disminuimos $\varepsilon$, reducimos la amplitud del intervalo, con lo que reducimos la confianza, o sea, aumentamos $\alpha$.
+
+En la práctica $S^2_{y_U}$ es desconocida, pero se pueden ensayar alguna de las siguientes estrategias para obtener una aproximación:
+
+* Se presume algún tipo de distribución para los valores de $y$ en la población. Luego se busca una cota para $S^2_{y_U}$.
+	* Si $y \sim \text{Ber} \Rightarrow 0 \leq S^2_{y_U} \leq \,^1\!/_4$
+	* Si $y \overset{a}{\sim} \text{N} \Rightarrow S^2_{y_U} \doteq \frac{y_{k_{(n)}} - y_{k_{(1)}} }{6}$ para un $\alpha \doteq 0.01$
+
+* Utilizar datos de algún relevamiento reciente o de alguna variable auxiliar para la que se pueda asumir una variabilidad similar. En estos casos se suele utilizar el $CV_{y_u}$ dado que es más estable que la varianza. Luego se fija una precisión relativa y se determina el valor de $n$.
+
+$$\Pr \big(|\hat{t}_y - t_y| < t_y \, \varepsilon \big) \doteq 1 - \alpha \Rightarrow \frac{t_y \, \varepsilon}{\sqrt{{\V}_{p(s)}(\hat{t}_y)}} = z_{1 - \, ^{\alpha}\!/_2} \Rightarrow \varepsilon = z_{1 - \, ^{\alpha}\!/_2} \left[ \frac{{\V}_{p(s)}(\hat{t}_y)}{t_y} \right]$$
+
+* Tomar una pequeña "muestra de iluminación" y calcular $S^2_{y_s}$ en dicha muestra. Luego se utilizar esta estimación como estimador de $S^2_{y_U}$ para calcular $n$.
+
+### Desarrollos de Taylor para aproximaciones en muestreo de poblaciones finitas
+
+Supongamos que queremos estimar: $\theta = f\big( t_1; \ldots; t_q \big) = f \big( \mathbf{t} \big)$ donde $t_j = \sum\nolimits_U y_{jk}$ $j=1;\ldots;q$, son los totales de las $q$ variables poblacionales relevadas. Un estimador podría ser $\hat{\theta} = f\big( \hat{t}_{1 \, \pi}; \ldots; \hat{t}_{q \, \pi} \big) = f \big( \hat{\mathbf{t}}_{\pi} \big)$ donde $\hat{t}_j = \sum\nolimits_s y_{jk}^{\checkmark}$ $j=1;\ldots;q$, son los totales de las $q$ variables poblacionales relevadas, estimados en la muestra $s$.
+
+Si $f \big( \hat{\mathbf{t}}_{j \, \pi} \big)$ es lineal tenemos que $\theta = a_0 + \sum\limits_{j=1}^{q} a_j \, t_j = a_0 + \mathbf{a}' \mathbf{t}$. Luego entonces $\hat{\theta} = a_0 + \sum\limits_{j=1}^{q} a_j \, \hat{t}_{\pi \, j} = a_0 + \mathbf{a}' \hat{\mathbf{t}}_{\pi}$ estima $\theta$ de forma tal que:
+
+- ${\E} \big( \hat{\theta} \big) = {\E} \big( a_0 + \mathbf{a}' \hat{\mathbf{t}}_{\pi} \big) = {\E}(a_0) + {\E}(\mathbf{a}' \hat{\mathbf{t}}_{\pi}) = a_0 + \mathbf{a}' \mathbf{t} \Rightarrow \hat{\theta}$ es insesgado para $\theta$.
+- ${\V}(\hat{\theta}) = {\V} \big( a_0 + \mathbf{a}' \hat{\mathbf{t}}_{\pi} \big) = \sum\limits_{j=1}^{q} \sum\limits_{j=1}^{q} a_{jj} \C(\hat{t}_{j \, \pi}; \hat{t}_{j' \, \pi} ) = \mathbf{a}' \, V(\hat{\mathbf{t}}_{\pi}) \, \mathbf{a}$, donde
+
+$$\C(\hat{t}_{j \, \pi}; \hat{t}_{j' \, \pi} ) = \sum\sum\nolimits_{U} \Delta_{kl} \, y_{jk}^{\checkmark} \, y_{j'k}^{\checkmark}$$
+
+Podemos reescribir $\hat{\theta}$ de la siguiente forma:
+
+$${\color{red} \star} \: \: \hat{\theta} = a_0 + \sum\limits_{j=1}^{q} a_j \, \hat{t}_{j \, \pi} = a_0 + \mathbf{a}' \hat{\mathbf{t}}_{\pi} = a_0 + \sum\limits_{j=1}^{q} a_j \sum\nolimits_s y_{jk}^{\checkmark} = a_0 + \sum\limits_{j=1}^{q} \sum\nolimits_s a_j \, y_{jk}^{\checkmark} = a_0 + \sum\nolimits_s u_k^{\checkmark}$$
+$$\text{ con } u_k = \sum\limits_{j=1}^{q} a_j \, y_{jk} \text{ y } u_k^{\checkmark} = \frac{u_k}{\pi_k}$$
+
+$${\color{red} \star} \: \: {\V}(\hat{\theta}) = \sum\sum\nolimits_U \Delta_{kl} \, u_k^{\checkmark} \, u_l^{\checkmark}$$
+
+$${\color{red} \star} \: \: \hat{\V}(\hat{\theta}) = \sum\sum\nolimits_s \Delta_{kl}^{\checkmark} \, u_k^{\checkmark} \, u_l^{\checkmark}$$
+
+Si $f \big( \hat{\mathbf{t}}_{\pi} \big)$ no es lineal, $\hat{\theta}$ debe aproximarse linealmente, y luego se podrán calcular $\V(\hat{\theta})$ y $\hat{\V}(\hat{\theta})$. La técnica aproxima $\hat{\theta}$ por un pseudo-estimador, $\hat{\theta}_0$, que es lineal en $\hat{\mathbf{t}}_{\pi}$. En general $\hat{\theta}_0$ dependerá de cantidades desconocidas (de ahí que se le llama pseudo-estimador). La técnica para hallar $\hat{\theta}_0$ consiste en la aproximación de Taylor de primer orden de la función $f$, en el entorno de un punto $\mathbf{t}$, y despreciar el término de error.
+
+$$\hat{\theta} \doteq \hat{\theta}_0 = \theta + \sum\limits_{j=1}^{q} a_j \big( \hat{t}_{j \, \pi} - t_j \big) \,\,\, \text{ donde } \,\,\, a_j = \frac{\partial f}{\partial \hat{t}_{j \, \pi}} \Bigg| _{ \hat{\mathbf{t}}_{\pi} = \mathbf{t} }$$
+
+En muestras grandes $\hat{\mathbf{t}}_{\pi} \approx \mathbf{t} \Rightarrow \hat{\theta}_0 = \hat{\theta}$ y $\AV(\hat{\theta}) = \V( \hat{\theta}_0 )$.
+
+$${\color{red} \star} \: \: \AV( \hat{\theta} ) \doteq V( \hat{\theta}_0 ) = V \left( \sum\limits_{j=1}^{q} a_j \, \hat{t}_{j \, \pi} \right) = V \left( \sum\limits_{j=1}^{q} a_j \sum\nolimits_s \frac{ y_{jk} }{ \pi_k } \right) =$$
+$$= \V \left( \sum\nolimits_s u_k^{\checkmark} \right) = \sum\sum\nolimits_U \Delta_{kl} \, u_k^{\checkmark} \, u_l^{\checkmark}$$
+
+Como $\E(\hat{\theta}_0) = \theta \Rightarrow MSE (\hat{\theta}) \doteq MSE (\hat{\theta}_0) = \V (\hat{\theta}_0) = \AV (\hat{\theta})$
+
+Las cantidades $u_k$ dependen de $a_j = \frac{\partial f}{\partial \hat{t}_{j \, \pi}} \Bigg| _{ \hat{\mathbf{t}}_{\pi} = \mathbf{t} }$ que es desconocida ya que $t_j$ es desconocido $\forall j$. De todas formas, la estimación puntual será $\hat{\theta}_0 = f \big( \hat{\mathbf{t}}_{\pi} \big)$. Para estimar la varianza se reemplaza $a_j$ por $\hat{a}_j = \frac{\partial f}{\partial \hat{t}_{j \, \pi}} \Bigg| _{ \hat{\mathbf{t}}_{\pi} = \hat{\mathbf{t}}_0 }$, siendo $\hat{\mathbf{t}}_0$ el total observado en la muestra. Luego entonces $\hat{u}_k = \sum\limits_{j=1}^{q} \hat{a}_j \, y_{jk}$, con lo que puede calcularse $\hat{\V} (\hat{\theta}) = \sum\sum\nolimits_s \Delta_{kl}^{\checkmark} \, \hat{u}_k^{\checkmark} \, \hat{u}_l^{\checkmark}$. Esto es válido ya que $\hat{u}_k$ es consistente para estimar $u_k$.
+
+### Estimador de una razón
+
+El problema consiste en estimar un cociente entre totales poblacionales:
+$${\color{red} \star} \: \: R = \frac{t_y}{t_z} = \frac{\bar{y}_U}{\bar{z}_U}$$
+
+Sea el estimador:
+$${\color{red} \star} \: \: \hat{R} = f \big( \hat{t}_{y \, \pi}; \hat{t}_{z \, \pi} \big) = \frac{ \hat{t}_{y \, \pi} }{ \hat{t}_{z \, \pi} } = \frac{\bar{y}_s}{\bar{z}_s}$$
+
+Utilizando la linealización de Taylor:
+$$\hat{R} = \hat{R}_0 = R + a_1 \big( \hat{t}_{y \, \pi} - t_y \big) + a_2 \big( \hat{t}_{z \, \pi} - t_z \big)$$
+$$\text{donde } \,\,\, a_1 = \frac{\partial f}{\partial \hat{t}_{y \, \pi}} \Bigg|_{\substack{ \hat{t}_{y \, \pi} = t_y \\ \hat{t}_{z \, \pi} = t_z}} = \frac{1}{t_z} \,\,\, \text{ y } \,\,\, a_2 = \frac{\partial f}{\partial \hat{t}_{z \, \pi}} \Bigg|_{\substack{ \hat{t}_{y \, \pi} = t_y \\ \hat{t}_{z \, \pi} = t_z}} = - \frac{t_y}{t_z^2} = - \frac{R}{t_z}$$
+
+Luego entonces:
+$$\hat{R} \doteq \hat{R}_0 = R + \frac{1}{t_z} \big( \hat{t}_{y \, \pi} - t_y \big) - \frac{R}{t_z} \big( \hat{t}_{z \, \pi} - t_z \big) = R + \frac{\hat{t}_{y \, \pi}}{t_z} - \frac{t_y}{t_z} - \frac{R \, \hat{t}_{z \, \pi}}{t_z} + \frac{R \, t_z}{t_z} =$$
+$$= R + \frac{\hat{t}_{y \, \pi}}{t_z} - R - \frac{R \, \hat{t}_{z \, \pi}}{t_z} + R = R + \frac{\hat{t}_{y \, \pi}}{t_z} - \frac{R \, \hat{t}_{z \, \pi}}{t_z} = R + \frac{1}{t_z} \big( \hat{t}_{y \, \pi} - R \, \hat{t}_{z \, \pi} \big) =$$
+$$= R + \frac{1}{t_z} \sum\nolimits_s \frac{y_k - R \, z_k}{\pi_k} = R + \sum\nolimits_s \frac{u_k}{\pi_k} \,\,\, \text{ donde } \,\,\, u_k = \frac{1}{t_z} \big( y_k - R \, z_k \big)$$
+
+En conclusión:
+$$\color{blue}\boxed{ \hat{R} \doteq \hat{R}_0 = R + \sum\nolimits_s \frac{u_k}{\pi_k} }$$
+
+$\hat{R} \doteq \hat{R}_0$ es aproximadamente insesgado para $R$.
+$${\color{red} \star } \: \: \E( \hat{R} ) \doteq \E( \hat{R}_0 ) = E \left( R + \sum\nolimits_s \frac{u_k}{\pi_k} \right) = R + \sum\nolimits_U u_k = R + \sum\nolimits_U \frac{y_k}{t_z} - R \sum\nolimits_U \frac{z_k}{t_z} =$$
+$$= R + \frac{1}{t_z} \sum\nolimits_U y_k - \frac{R}{t_z} \sum\nolimits_U z_k = R + \frac{t_y}{t_z} - \frac{R}{t_z} \, t_z = \frac{t_y}{t_z} = R$$
+$${\color{red} \star } \: \: \AV( \hat{R} ) = \V( \hat{R}_0 ) = \sum\sum\nolimits_U \Delta_{kl} \, u_k^{\checkmark}  \, u_l^{\checkmark} = \frac{1}{t_z^2} \sum\sum\nolimits_U \Delta_{kl} \, E_k^{\checkmark} \, E_l^{\checkmark}$$
+$$\text{ donde } \: \: E_k = y_k - R \, z_k$$
+$${\color{red} \star } \: \: \hat{\V}( \hat{R}_0 ) = \sum\sum\nolimits_s \Delta_{kl}^{\checkmark} \, \hat{u}_k^{\checkmark}  \, \hat{u}_l^{\checkmark} = \frac{1}{\hat{t}_z^2} \sum\sum\nolimits_s \Delta_{kl}^{\checkmark} \, e_k^{\checkmark} \, e_l^{\checkmark}$$
+$$\text{ donde } \: \: e_k = y_k - \hat{R} \, z_k$$
+$${\color{red} \star } \: \: \E \big( \hat{\V}( \hat{R}_0 ) \big) = \E \left( \sum\sum\nolimits_s \Delta_{kl}^{\checkmark} \, \hat{u}_k^{\checkmark} \, \hat{u}_l^{\checkmark} \right) = \sum\sum\nolimits_U \Delta_{kl} \, \hat{u}_k^{\checkmark} \, \hat{u}_l^{\checkmark}$$
+
+Por lo tanto, $\hat{\V}( \hat{R}_0 )$ es aproximadamente insesgado para estimar $\V(\hat{R})$.
+
+Las expresiones anteriores para $\AV( \hat{R} )$ y $\hat{\V}( \hat{R})$ son equivalentes a:
+$${\color{red} \star } \: \: \AV ( \hat{R} ) = \frac{1}{t_z^2} \Big[ \V(\hat{t}_{y \, \pi}) + R^2 \, V(\hat{t}_{z \, \pi}) - 2 \, R \, \C \big( \hat{t}_{y \, \pi}; \hat{t}_{z \, \pi} \big) \Big]$$
+$${\color{red} \star } \: \: \hat{\V} ( \hat{R} ) = \frac{1}{\hat{t}_z^2} \Big[ \hat{\V}(\hat{t}_{y \, \pi}) + \hat{R}^2 \, \hat{\V}(\hat{t}_{z \, \pi}) - 2 \, \hat{R} \, \hat{\C} \big( \hat{t}_{y \, \pi}; \hat{t}_{z \, \pi} \big) \Big]$$
+
+### El estimador $\hat{t}_{y_{ra}}$
+
+El objetivo es estimar $t_y$, y se cuenta con una variable auxiliar $z$ conocida $\forall k \in U$. Sea el ``estimador de razón'':
+$${\color{red} \star } \: \: \hat{t}_{yra} = \frac{ \hat{t}_{y \, \pi} }{ \hat{t}_{z \, \pi} } \, t_z = \hat{R} \, t_z = \frac{t_z}{\hat{t}_{z \, \pi}} \, \hat{t}_{y \, \pi}$$
+$${\color{red} \star } \: \: \AV \big( \hat{t}_{yra} \big) = \AV \big( \hat{R} \, t_z \big) = t_z^2 \, \AV \big( \hat{R} \big) = \sum\sum\nolimits_U \Delta_{kl} \, \left( \frac{y_k - R \, z_k}{\pi_k} \right) \left( \frac{y_l - R \, z_l}{\pi_l} \right)$$
+$${\color{red} \star } \: \: \hat{\V} \big( \hat{t}_{yra} \big) = \sum\sum\nolimits_s \Delta_{kl}^{\checkmark} \, \left( \frac{y_k - \hat{R} \, z_k}{\pi_k} \right) \left( \frac{y_l - \hat{R} \, z_l}{\pi_l} \right)$$
+
+La lógica detrás de este estimador es la mismas que en el $\hat{t}_{alt} = \frac{N}{\hat{N}} \, \hat{t}_{y \, \pi}$ donde $z_k = 1 \: \: \forall k \in U$.
+
+***
+
+Si te sirvieron estas notas, podes encontrar la versión completa de las notas de muestreo 1 [aquí](https://github.com/daczarne/udelar_muestreo_1/tree/master/Resumenes). Las notas de muestreo 2 se encuentran [aquí](https://github.com/daczarne/udelar_muestreo_2/tree/master/Resumenes).

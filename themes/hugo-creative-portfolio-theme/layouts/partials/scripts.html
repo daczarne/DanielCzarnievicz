@@ -46,6 +46,21 @@
 <!-- typedarray -->
 <script src="{{ "rmarkdown-libs/typedarray/typedarray.min.js" | absURL }}"></script>
 
+<!-- Math Jax-->
+<script>
+    MathJax = {
+        tex: {
+            macros: {
+                E: ['\\mathbf{E}'],
+                V: ['\\mathbf{Var}'],
+                C: ['\\mathbf{Cov}'],
+                AV: ['\\mathbf{AVar}']
+            }
+        }
+    };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
 {{ if .Site.Params.analytics.matomo }}
 {{ partial "_analytics/matomo.html" . }}
 {{ end }}
