@@ -8,7 +8,6 @@ weight: 4
 ---
 
 ¿Qué tecnologías de la información utilizamos los uruguayos? ¿Qué tan seguido utilizamos Internet? ¿Y las redes sociales?
-
 <!--more-->
 
 ```{r setup,  echo=FALSE, message=FALSE, warning=FALSE}
