@@ -40,7 +40,6 @@ vignettes/*.pdf
 
 # R Blogdown subdirs
 .DS_Store
-themes/
 public/
 .idea/*
 
