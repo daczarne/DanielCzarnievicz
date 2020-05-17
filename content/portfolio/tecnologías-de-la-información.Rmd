@@ -8,6 +8,7 @@ weight: 4
 ---
 
 ¿Qué tecnologías de la información utilizamos los uruguayos? ¿Qué tan seguido utilizamos Internet? ¿Y las redes sociales?
+
 <!--more-->
 
 ```{r setup,  echo=FALSE, message=FALSE, warning=FALSE}
@@ -33,7 +34,18 @@ source(
 eutic <- readr::read_rds(path = here::here("DataSets/EUTIC/eutic.rds"))
 ```
 
-Respuestas a esto y mucho más encontrarás en nuestra App. En ella analizo los resultados de la Encuesta de Usos de las Tecnologías de la Información y Comunicación (2016) del Instituto Nacional de Estadística ([INE](http://www.ine.gub.uy/)) y la Agencia de Gobierno Electrónico y Sociedad de la Información y del Conocimiento ([AGESIC](https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/)). 
+```{css, echo=FALSE}
+.plotly {
+   
+   width: 100%;
+   margin: 0 auto;
+   
+}
+```
+
+¿Qué tecnologías de la información utilizamos los uruguayos? ¿Qué tan seguido utilizamos Internet? ¿Y las redes sociales?
+
+Respuestas a esto y mucho más encontrarás en nuestra App. En ella analizo los resultados de la Encuesta de Usos de las Tecnologías de la Información y Comunicación (2016) del Instituto Nacional de Estadística ([INE](http://www.ine.gub.uy/)) y la Agencia de Gobierno Electrónico y Sociedad de la Información y del Conocimiento ([AGESIC](https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/)). Aquí se presentan solo algunas de ellas.
 
 <br>
 
