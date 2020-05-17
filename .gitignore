@@ -48,6 +48,5 @@ public/
 .travis.yml
 DataSets/ENGIH/
 DataSets/INEShapeFiles/
-content/contact/
 static/portfolio/
 static/img/favicon.png
