@@ -38,6 +38,10 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
+# Other theme files
+/public/
+static/img/favicon.png
+
 # Other files
 DataSets/ENGIH/
 DataSets/INEShapeFiles/
