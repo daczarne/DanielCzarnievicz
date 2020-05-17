@@ -38,12 +38,6 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# R Blogdown subdirs
-.DS_Store
-public/
-.idea/*
-
 # Other files
 DataSets/ENGIH/
 DataSets/INEShapeFiles/
-static/img/favicon.png
