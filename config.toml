@@ -1,4 +1,4 @@
-baseurl = "/"
+baseurl = "https://danielczarnievicz.netlify.app"
 title = "Daniel Czarnievicz"
 theme = "hugo-creative-portfolio-theme"
 languageCode = "en-us"
