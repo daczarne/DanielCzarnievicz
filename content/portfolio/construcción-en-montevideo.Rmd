@@ -43,6 +43,8 @@ htmltools::div(
 )
 ```
 
+<br>
+
 ¿Te gustaría saber cómo se distribuyeron los permisos? Visitá mi App haciendo click en el siguiente [link](https://daczarne.shinyapps.io/DashConstruccion/).
 
 Elaborado en base a datos del Instituto Nacional de Estadística ([INE](http://www.ine.gub.uy/)).

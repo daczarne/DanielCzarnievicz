@@ -45,7 +45,7 @@ eutic <- readr::read_rds(path = here::here("DataSets/EUTIC/eutic.rds"))
 
 ¿Qué tecnologías de la información utilizamos los uruguayos? ¿Qué tan seguido utilizamos Internet? ¿Y las redes sociales?
 
-Respuestas a esto y mucho más encontrarás en nuestra App. En ella analizo los resultados de la Encuesta de Usos de las Tecnologías de la Información y Comunicación (2016) del Instituto Nacional de Estadística ([INE](http://www.ine.gub.uy/)) y la Agencia de Gobierno Electrónico y Sociedad de la Información y del Conocimiento ([AGESIC](https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/)). Aquí se presentan solo algunas de ellas.
+Respuestas a esto y mucho más encontrarás en nuestra App. En ella analizo los resultados de la Encuesta de Usos de las Tecnologías de la Información y Comunicación (2016) del Instituto Nacional de Estadística ([INE](http://www.ine.gub.uy/)) y la Agencia de Gobierno Electrónico y Sociedad de la Información y del Conocimiento ([AGESIC](https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/)). Aquí se presentan solo algunas de las preguntas del questionario.
 
 <br>
 
@@ -58,6 +58,8 @@ eutic %>%
       group_var_2 = "tiene_internet"
    )
 ```
+
+<br>
 
 **Quienes utilizan Internet en el celular, ¿con qué frecuencia lo hacen? ¿Varía según el sexo de la persona?**
 
@@ -72,6 +74,8 @@ eutic %>%
       group_var_2 = "frecuencia_uso_internet_celular"
    )
 ```
+
+<br>
 
 **Los uruguayos, ¿compramos y vendemos por Interner? ¿Depende esto del nivel educativo de las personas?**
 
