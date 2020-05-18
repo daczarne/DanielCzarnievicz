@@ -308,4 +308,20 @@ La lógica detrás de este estimador es la mismas que en el $\hat{t}_{alt} = \fr
 
 ***
 
-Si te sirvieron estas notas, podes encontrar la versión completa de las notas de muestreo 1 [aquí](https://github.com/daczarne/udelar_muestreo_1/tree/master/Resumenes). Las notas de muestreo 2 se encuentran [aquí](https://github.com/daczarne/udelar_muestreo_2/tree/master/Resumenes).
+Si te sirvieron estas notas, podes encontrar la versión pdf y notas a otros temas de muestreo de poblaciones finitas en los siguientes links:
+
+- [Nociones básicas sobre el muestreo de poblaciones finitas](https://github.com/daczarne/udelar_muestreo_1/blob/master/Resumenes/01_intro/01_intro.pdf)
+- [Diseño SI](https://github.com/daczarne/udelar_muestreo_1/blob/master/Resumenes/02_si/02_si.pdf)
+- [Diseño BE](https://github.com/daczarne/udelar_muestreo_1/blob/master/Resumenes/03_be/03_be.pdf)
+- [Diseño ordenado SIR](https://github.com/daczarne/udelar_muestreo_1/blob/master/Resumenes/04_sir/04_sir.pdf)
+- [Muestreo con probabilidad proporcional al tamaño](https://github.com/daczarne/udelar_muestreo_1/blob/master/Resumenes/06_prob_prop/06_prob_prop.pdf)
+- [Diseño PO](https://github.com/daczarne/udelar_muestreo_1/blob/master/Resumenes/07_po/07_po.pdf)
+- [Muestreo Estratificado](https://github.com/daczarne/udelar_muestreo_1/blob/master/Resumenes/08_estrat/08_estrat.pdf)
+- [Diseño STSI](https://github.com/daczarne/udelar_muestreo_1/blob/master/Resumenes/09_stsi/09_stsi.pdf)
+- [Muestreo por clusters](https://github.com/daczarne/udelar_muestreo_1/blob/master/Resumenes/10_clusters/10_clusters.pdf)
+- [Diseño SIC](https://github.com/daczarne/udelar_muestreo_1/blob/master/Resumenes/11_sic/11_sic.pdf)
+- [Muestreo en dos etapas](https://github.com/daczarne/udelar_muestreo_1/blob/master/Resumenes/12_dos_etapas/12_dos_etapas.pdf)
+- [Diseño SISI](https://github.com/daczarne/udelar_muestreo_1/blob/master/Resumenes/13_sisi/13_sisi.pdf)
+- [Muestreo asistido por modelos](https://github.com/daczarne/udelar_muestreo_2/blob/master/Resumenes/14_asistido/14_asistido.pdf)
+- [El estimador de regresión para muestreo en dos etapas](https://github.com/daczarne/udelar_muestreo_2/blob/master/Resumenes/15_reg_dos_etapas/15_reg_dos_etapas.pdf)
+- [El estimador calibrado](https://github.com/daczarne/udelar_muestreo_2/blob/master/Resumenes/16_calibrado/16_calibrado.pdf)
