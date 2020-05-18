@@ -9,7 +9,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   description = "Me and my data vizs"
   copyright = "&copy;2020 Daniel Czarnievicz"
   sidebarAbout = [
-    "I am an economist and data scientist with over 10 years of experience. I have worked both in academia and in the private sector.",
+    "I am an economist and data scientist with over 10 years of experience in data related rols. I have worked both in academia and in the private sector.",
     "I currently work as a Product Analyst at PedidosYa, one of the largest online food delivery companies in Latin America with presence in 8 countries."
   ]
 
