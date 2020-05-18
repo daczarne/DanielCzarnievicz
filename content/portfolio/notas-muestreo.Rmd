@@ -6,7 +6,7 @@ weight: 0
 output: blogdown::html_page
 ---
 
-Resumenes de los cursos de muestreo el Instituto de Estadística (IESTA - FCEA - Udelar).
+Resumenes de los cursos de muestreo del Instituto de Estadística (IESTA - FCEA - Udelar).
 
 <!--more-->
 
