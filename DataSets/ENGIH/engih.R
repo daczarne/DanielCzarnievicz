@@ -112,46 +112,85 @@ dim_gastos <- readxl::read_xlsx(
    )
 
 # Gastos ------------------------------------------------------------------
-haven::read_sav(
+gastos <- haven::read_sav(
    file = "DataSets/ENGIH/ENGIH 2016 Base de Datos Gastos.sav"
 ) %>%
    dplyr::rename_all(
       .funs = tolower
    ) %>%
-   dplyr::mutate(
-      fecha = stringr::str_c(domanio, "-", dommes, "-01"),
-      fecha = lubridate::ymd(fecha)
-   ) %>%
    dplyr::transmute(
-      numero,
-      fecha,
-      depto = base::factor(
-         x = base::as.integer(domdepartamento),
-         levels = deptos$depto_id,
-         labels = deptos$depto_name
+      hogar = base::as.integer(numero),
+      fecha = stringr::str_c(domanio, "-", dommes, "-01"),
+      fecha = lubridate::ymd(fecha),
+      region = forcats::as_factor(region),
+      region = forcats::fct_recode(
+         .f = region,
+         "Montevideo" = "01",
+         "Interior Urbano" = "02",
+         "Interior Rural" = "03"
       ),
       articulo = base::as.integer(articulocodigo),
-      cantidad = cantidadconvertida,
-      calorias,
+      division = forcats::as_factor(division),
+      division = forcats::fct_recode(
+         .f = division,
+         "Alimentos y bebidas no alcohólicas" = "Alimentos y bebidas no alcoholicas",
+         "Bebidas alcohólicas, tabaco y estupefacientes" = "Bebidas alcoholicas, tabaco y estupefacientes",
+         "Muebles y artículos para el hogar" = "Muebles, articulos para el hogar",
+         "Recreación y cultura" = "Recreacion y cultura",
+         "Educación" = "Educacion"
+      ),
+      origen = base::as.character(forcats::as_factor(comocodigo)),
+      origen = stringr::str_remove_all(origen, "‘|’"),
       destino = base::as.character(forcats::as_factor(destinocodigo)),
       destino = stringr::str_remove_all(destino, "‘|’"),
-      destino = dplyr::if_else(destino %in% base::c("Hogar", "Extraordinario hogar"), "Hogar", "Otro"),
+      destino = dplyr::if_else(destino %in% base::c("Hogar", "Extraordinario hogar","0"), "Hogar", "Otro"),
       destino = forcats::as_factor(destino),
+      cantidad = cantidadconvertida,
+      calorias,
+      valor = valorcontm,
       peso
    ) %>%
-   dplyr::group_by(
-      articulo,
-      depto,
-      destino
+   dplyr::filter(
+      !(origen %in% base::c(
+         "Canasta INDA, MIDES, Intendencias",
+         "Recibido de Instituciones"
+      )),
+      destino == "Hogar",
+      division != "Transferencias sociales en especie imputadas"
    ) %>%
-   dplyr::summarise(
-      cantidad_promedio_por_hogar = stats::weighted.mean(x = cantidad, w = peso, na.rm = TRUE),
-      calorias_promedio_por_hogar = stats::weighted.mean(x = calorias, w = peso, na.rm = TRUE)
+   dplyr::select(
+      -origen,
+      -destino
    )
 
+readr::write_rds(x = gastos, path = "DataSets/ENGIH/gastos.rds")
 
-#
+gastos %>%
+   dplyr::select(
+      -fecha
+   ) %>%
+   dplyr::group_by(
+      hogar,
+      region,
+      division
+   ) %>%
+   dplyr::summarise(
+      valor = base::sum(valor, na.rm = TRUE),
+      peso = base::min(peso, na.rm = TRUE)
+   ) %>%
+   dplyr::ungroup() %>%
+   dplyr::group_by(
+      region,
+      division
+   ) %>%
+   dplyr::summarise(
+      gasto = stats::weighted.mean(valor, peso, na.rm = TRUE)
+   ) %>%
+   dplyr::mutate(
+      proporcion = gasto / base::sum(gasto, na.rm = TRUE)
+   )
 
+## ver página 80
 
 
 #===============#
