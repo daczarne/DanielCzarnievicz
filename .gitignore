@@ -43,5 +43,5 @@ vignettes/*.pdf
 static/img/favicon.png
 
 # Other files
-DataSets/ENGIH/
+DataSets/ENGIH/*.sav
 DataSets/INEShapeFiles/
