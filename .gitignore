@@ -44,4 +44,6 @@ static/img/favicon.png
 
 # Other files
 DataSets/ENGIH/*.sav
+DataSets/ENGIH/*.rds
+DataSets/ENGIH/*.pdf
 DataSets/INEShapeFiles/
