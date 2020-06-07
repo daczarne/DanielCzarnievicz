@@ -17,4 +17,4 @@
 ![github social stars](https://img.shields.io/github/stars/daczarne/DanielCzarnievicz?style=social)
 ![github social watchers](https://img.shields.io/github/watchers/daczarne/DanielCzarnievicz?label=Watchers&style=social)
 
-Página personal creada con [R Blogdown](https://github.com/rstudio/blogdown) y [Hugo Creative Portfolio Theme](https://github.com/kishaningithub/hugo-creative-portfolio-theme)
+Página personal creada con [R Blogdown](https://github.com/rstudio/blogdown) y [Hugo Creative Portfolio Theme](https://github.com/kishaningithub/hugo-creative-portfolio-theme).
