@@ -1,6 +1,6 @@
 # Daniel Czarnievicz
 
-![maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+![stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)
 ![licence](https://img.shields.io/github/license/daczarne/DanielCzarnievicz)
 
 ![github last commit](https://img.shields.io/github/last-commit/daczarne/DanielCzarnievicz)
