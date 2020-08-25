@@ -1,6 +1,6 @@
 # Daniel Czarnievicz
 
-![maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+![stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)
 ![licence](https://img.shields.io/github/license/daczarne/DanielCzarnievicz)
 
 ![github last commit](https://img.shields.io/github/last-commit/daczarne/DanielCzarnievicz)
@@ -17,4 +17,4 @@
 ![github social stars](https://img.shields.io/github/stars/daczarne/DanielCzarnievicz?style=social)
 ![github social watchers](https://img.shields.io/github/watchers/daczarne/DanielCzarnievicz?label=Watchers&style=social)
 
-Página personal creada con [R Blogdown](https://github.com/rstudio/blogdown) y [Hugo Creative Portfolio Theme](https://github.com/kishaningithub/hugo-creative-portfolio-theme)
+Página personal creada con [R Blogdown](https://github.com/rstudio/blogdown) y [Hugo Creative Portfolio Theme](https://github.com/kishaningithub/hugo-creative-portfolio-theme).
