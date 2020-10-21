@@ -6,7 +6,7 @@ weight: 0
 output: blogdown::html_page
 ---
 
-Resumenes del curso de Análisis Multivariado I del Instituto de Estadística (IESTA - FCEA - Udelar).
+Resúmenes del curso de Análisis Multivariado I del Instituto de Estadística (IESTA - FCEA - Udelar).
 
 <!--more-->
 
@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 library(magrittr, quietly = TRUE)
 ```
 
-Aquí podrás encontrar algunos resumenes sobre las técnicas de aprendizaje estadístico cubiertas en el curso Análisis Multivariado I del IESTA.
+Aquí podrás encontrar algunos resúmenes sobre las técnicas de aprendizaje estadístico cubiertas en el curso Análisis Multivariado I del IESTA.
 
 ## Análisis de Clusters
 
