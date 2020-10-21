@@ -79,42 +79,7 @@ static/rmarkdown-libs/sankeyNetwork-binding/sankeyNetwork.js linguist-vendored
 
 static/rmarkdown-libs/typedarray/typedarray.min.js linguist-vendored
 
-public/about/index.html
 
-public/categories/index.html
-
-public/css/bootstrap.min.css linguist-vendored
-public/css/bootstrap.min.css.map linguist-vendored
-public/css/custom.css linguist-vendored
-public/css/font-awesome.min.css linguist-vendored
-public/css/helper.css linguist-vendored
-public/css/owl.carousel.css linguist-vendored
-public/css/owl.theme.css linguist-vendored
-public/css/owl.transitions.css linguist-vendored
-public/css/style.blue.css linguist-vendored
-public/css/style.default.css linguist-vendored
-public/css/style.green.css linguist-vendored
-public/css/style.pink.css linguist-vendored
-public/css/style.red.css linguist-vendored
-public/css/style.sea.css linguist-vendored
-public/css/style.violet.css linguist-vendored
-
-public/js/bootstrap.min.js linguist-vendored
-public/js/ekko-lightbox.js linguist-vendored
-public/js/front.js linguist-vendored
-public/js/imagesloaded.pkgd.min.js linguist-vendored
-public/js/jquery.cookie.js linguist-vendored
-public/js/jquery.min.js linguist-vendored
-public/js/jquery.scrollTo.min.js linguist-vendored
-public/js/masonry.pkgd.min.js linguist-vendored
-public/js/owl.carousel.min.js linguist-vendored
-
-public/portfolio/comportamientos-reporductivos/index.html linguist-vendored
-public/portfolio/construcción-en-montevideo/index.html linguist-vendored
-public/portfolio/notas-aprendizaje-estadistico/index.html linguist-vendored
-public/portfolio/notas-muestreo/index.html linguist-vendored
-public/portfolio/tecnologías-de-la-información/index.html linguist-vendored
-public/portfolio/index.html linguist-vendored
 
 
 
