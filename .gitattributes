@@ -48,3 +48,36 @@ themes/hugo-creative-portfolio-theme/static/js/jquery.min.js linguist-vendored
 themes/hugo-creative-portfolio-theme/static/js/jquery.scrollTo.min.js linguist-vendored
 themes/hugo-creative-portfolio-theme/static/js/masonry.pkgd.min.js linguist-vendored
 themes/hugo-creative-portfolio-theme/static/js/owl.carousel.min.js linguist-vendored
+
+static/rmarkdown-libs/crosstalk/css/crosstalk.css linguist-vendored
+static/rmarkdown-libs/crosstalk/js/crosstalk.js linguist-vendored
+static/rmarkdown-libs/crosstalk/js/crosstalk.js.map linguist-vendored
+static/rmarkdown-libs/crosstalk/js/crosstalk.min.js linguist-vendored
+static/rmarkdown-libs/crosstalk/js/crosstalk.min.js.map linguist-vendored
+
+static/rmarkdown-libs/d3/d3.min.js linguist-vendored
+
+static/rmarkdown-libs/htmlwidgets/htmlwidgets.js linguist-vendored
+
+static/rmarkdown-libs/jquery/jquery.js linguist-vendored
+static/rmarkdown-libs/jquery/jquery.min.js linguist-vendored
+static/rmarkdown-libs/jquery/jquery.min.map linguist-vendored
+
+static/rmarkdown-libs/plotly-binding/plotly.js linguist-vendored
+
+static/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css linguist-vendored
+
+static/rmarkdown-libs/plotly-locale-es/es.js linguist-vendored
+
+static/rmarkdown-libs/plotly-main/plotly-latest.min.js linguist-vendored
+
+static/rmarkdown-libs/sankey/d3-4.5.0/d3.min.js linguist-vendored
+
+static/rmarkdown-libs/sankey/sankey.js linguist-vendored
+
+static/rmarkdown-libs/sankeyNetwork-binding/sankeyNetwork.js linguist-vendored
+
+static/rmarkdown-libs/typedarray/typedarray.min.js linguist-vendored
+
+
+
