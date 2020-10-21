@@ -1,9 +1,13 @@
 themes/hugo-creative-portfolio-theme/layouts/_analytics/matomo.html linguist-vendored
+
 themes/hugo-creative-portfolio-theme/layouts/_default/baseof.html linguist-vendored
 themes/hugo-creative-portfolio-theme/layouts/_default/list.html linguist-vendored
 themes/hugo-creative-portfolio-theme/layouts/_default/single.html linguist-vendored
+
 themes/hugo-creative-portfolio-theme/layouts/about/list.html linguist-vendored
+
 themes/hugo-creative-portfolio-theme/layouts/contact/list.html linguist-vendored
+
 themes/hugo-creative-portfolio-theme/layouts/partials/attribution.html linguist-vendored
 themes/hugo-creative-portfolio-theme/layouts/partials/footer.html linguist-vendored
 themes/hugo-creative-portfolio-theme/layouts/partials/footer_mathjax.html linguist-vendored
@@ -14,7 +18,9 @@ themes/hugo-creative-portfolio-theme/layouts/partials/portfolio.html linguist-ve
 themes/hugo-creative-portfolio-theme/layouts/partials/sidebar.html linguist-vendored
 themes/hugo-creative-portfolio-theme/layouts/partials/social_buttons_in_contact.html linguist-vendored
 themes/hugo-creative-portfolio-theme/layouts/partials/social_buttons_in_sidebar.html linguist-vendored
+
 themes/hugo-creative-portfolio-theme/layouts/404.html linguist-vendored
+
 themes/hugo-creative-portfolio-theme/layouts/index.html linguist-vendored
 
 themes/hugo-creative-portfolio-theme/static/css/bootstrap.min.css linguist-vendored
@@ -33,3 +39,12 @@ themes/hugo-creative-portfolio-theme/static/css/style.red.css linguist-vendored
 themes/hugo-creative-portfolio-theme/static/css/style.sea.css linguist-vendored
 themes/hugo-creative-portfolio-theme/static/css/style.violet.css linguist-vendored
 
+themes/hugo-creative-portfolio-theme/static/js/bootstrap.min.js linguist-vendored
+themes/hugo-creative-portfolio-theme/static/js/ekko-lightbox.js linguist-vendored
+themes/hugo-creative-portfolio-theme/static/js/front.js linguist-vendored
+themes/hugo-creative-portfolio-theme/static/js/imagesloaded.pkgd.min.js linguist-vendored
+themes/hugo-creative-portfolio-theme/static/js/jquery.cookie.js linguist-vendored
+themes/hugo-creative-portfolio-theme/static/js/jquery.min.js linguist-vendored
+themes/hugo-creative-portfolio-theme/static/js/jquery.scrollTo.min.js linguist-vendored
+themes/hugo-creative-portfolio-theme/static/js/masonry.pkgd.min.js linguist-vendored
+themes/hugo-creative-portfolio-theme/static/js/owl.carousel.min.js linguist-vendored
