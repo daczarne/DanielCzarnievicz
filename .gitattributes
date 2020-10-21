@@ -16,3 +16,20 @@ themes/hugo-creative-portfolio-theme/layouts/partials/social_buttons_in_contact.
 themes/hugo-creative-portfolio-theme/layouts/partials/social_buttons_in_sidebar.html linguist-vendored
 themes/hugo-creative-portfolio-theme/layouts/404.html linguist-vendored
 themes/hugo-creative-portfolio-theme/layouts/index.html linguist-vendored
+
+themes/hugo-creative-portfolio-theme/static/css/bootstrap.min.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/bootstrap.min.css.map linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/custom.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/font-awesome.min.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/helper.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/owl.carousel.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/owl.theme.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/owl.transitions.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/style.blue.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/style.default.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/style.green.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/style.pink.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/style.red.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/style.sea.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/style.violet.css linguist-vendored
+
