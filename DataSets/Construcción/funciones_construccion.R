@@ -25,7 +25,8 @@ plotly_construccion <- function(.data) {
       ) %>%
       dplyr::summarise(
          permisos = base::sum(permisos, na.rm = TRUE),
-         superficie = base::sum(superficie, na.rm = TRUE)
+         superficie = base::sum(superficie, na.rm = TRUE),
+         .groups = "drop"
       ) %>%
       dplyr::ungroup() %>%
       accumulate_by(

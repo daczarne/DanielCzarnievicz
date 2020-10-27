@@ -24,7 +24,8 @@ plotly_questions_one <- function(q, th) {
          variable
       ) %>%
       dplyr::summarise(
-         n = base::sum(peso, na.rm = TRUE)
+         n = base::sum(peso, na.rm = TRUE),
+         .groups = "drop_last"
       ) %>%
       dplyr::mutate(
          prop = n / base::sum(n)
@@ -80,7 +81,8 @@ plotly_question_motherhood <- function(q) {
          variable
       ) %>%
       dplyr::summarise(
-         n = base::sum(peso, na.rm = TRUE)
+         n = base::sum(peso, na.rm = TRUE),
+         .groups = "drop_last"
       ) %>%
       dplyr::mutate(
          prop = n / sum(n)
@@ -137,7 +139,8 @@ generar_sankey <- function(.data, var_1, var_2) {
          var_2 := !!rlang::sym(var_2)
       ) %>%
       dplyr::summarise(
-         n = base::sum(peso, na.rm = TRUE)
+         n = base::sum(peso, na.rm = TRUE),
+         .groups = "drop_last"
       ) %>%
       dplyr::ungroup() %>%
       dplyr::filter(
@@ -153,8 +156,8 @@ generar_sankey <- function(.data, var_1, var_2) {
    nodes <- base::data.frame(name = base::c(base::as.character(aux_data$source), base::as.character(aux_data$target)) %>% base::unique())
 
    # Agrega IDs con 0 indexing (porque JS usa 0 indexing)
-   aux_data$IDsource <- base::match(aux_data$source, nodes$name) - 1
-   aux_data$IDtarget <- base::match(aux_data$target, nodes$name) - 1
+   aux_data$IDsource <- base::match(aux_data$source, nodes$name) - 1L
+   aux_data$IDtarget <- base::match(aux_data$target, nodes$name) - 1L
 
    # Construye el Sankey
    networkD3::sankeyNetwork(
@@ -165,9 +168,9 @@ generar_sankey <- function(.data, var_1, var_2) {
       Value = "value",
       NodeID = "name",
       sinksRight = FALSE,
-      nodeWidth = 40,
-      fontSize = 13,
-      nodePadding = 20
+      nodeWidth = 40L,
+      fontSize = 13L,
+      nodePadding = 20L
    )
 
 }

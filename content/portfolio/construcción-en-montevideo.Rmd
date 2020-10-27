@@ -33,7 +33,7 @@ source(
 ```
 
 ```{r datos}
-construccion <- readr::read_rds(path = here::here("DataSets/Construcción/construccion.rds"))
+construccion <- readr::read_rds(file = here::here("DataSets/Construcción/construccion.rds"))
 ```
 
 ```{r plot_construccion}
@@ -48,8 +48,6 @@ htmltools::div(
 ¿Te gustaría saber cómo se distribuyeron los permisos? Visitá mi App haciendo click en el siguiente [link](https://daczarne.shinyapps.io/DashConstruccion/).
 
 Elaborado en base a datos del Instituto Nacional de Estadística ([INE](http://www.ine.gub.uy/)).
-
-Foto aérea de Pocitos cortesía de Jimmy Baikovicius. Podés encontrar esta y otras asombrosas fotos de nuestro país en su perfil de [flickr](https://www.flickr.com/photos/jikatu/).
 
 ***
 

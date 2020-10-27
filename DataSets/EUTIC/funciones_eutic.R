@@ -22,7 +22,8 @@ plotly_hogares_tienen <- function(.data, group_var_1, group_var_2) {
          group_var_2
       ) %>%
       dplyr::summarise(
-         n = base::sum(peso_hogar, na.rm = TRUE)
+         n = base::sum(peso_hogar, na.rm = TRUE),
+         .groups = "drop_last"
       ) %>%
       dplyr::mutate(
          proporcion = n / base::sum(n, na.rm = TRUE)
@@ -86,7 +87,8 @@ plotly_personas_uso_tic <- function(.data, group_var_1, group_var_2, plotly_lege
          group_var_2
       ) %>%
       dplyr::summarise(
-         n = base::sum(peso_persona, na.rm = TRUE)
+         n = base::sum(peso_persona, na.rm = TRUE),
+         .groups = "drop_last"
       ) %>%
       dplyr::mutate(
          prop = n / base::sum(n, na.rm = TRUE)

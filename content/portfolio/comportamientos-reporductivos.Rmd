@@ -31,8 +31,8 @@ source(
 ```
 
 ```{r datos}
-encor <- readr::read_rds(path = here::here("DataSets/ENCoR/encor.rds"))
-metodos_anticonceptivos <- readr::read_rds(path = here::here("DataSets/ENCoR/metodos_anticonceptivos.rds"))
+encor <- readr::read_rds(file = here::here("DataSets/ENCoR/encor.rds"))
+metodos_anticonceptivos <- readr::read_rds(file = here::here("DataSets/ENCoR/metodos_anticonceptivos.rds"))
 ```
 
 ```{css, echo=FALSE}

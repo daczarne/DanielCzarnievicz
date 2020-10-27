@@ -31,15 +31,13 @@ source(
 ```
 
 ```{r datos}
-eutic <- readr::read_rds(path = here::here("DataSets/EUTIC/eutic.rds"))
+eutic <- readr::read_rds(file = here::here("DataSets/EUTIC/eutic.rds"))
 ```
 
 ```{css, echo=FALSE}
 .plotly {
-   
    width: 100%;
    margin: 0 auto;
-   
 }
 ```
 
