@@ -79,6 +79,9 @@ static/rmarkdown-libs/sankeyNetwork-binding/sankeyNetwork.js linguist-vendored
 
 static/rmarkdown-libs/typedarray/typedarray.min.js linguist-vendored
 
+static/rmarkdown-libs/anchor-sections/anchor-sections.js
+static/rmarkdown-libs/anchor-sections/anchor-sections.css
+
 content/portfolio/comportamientos-reporductivos.html linguist-vendored
 content/portfolio/construcción-en-montevideo.html linguist-vendored
 content/portfolio/notas-aprendizaje-estadistico.html linguist-vendored
