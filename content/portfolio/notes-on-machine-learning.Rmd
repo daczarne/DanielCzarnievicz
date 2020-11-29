@@ -1,0 +1,278 @@
+---
+date: '2020-11-29'
+draft: false
+title: "Notes on Machine Learning"
+weight: 7
+output: blogdown::html_page
+---
+
+Practice exercises from my course on Machine Learning
+
+<!--more-->
+
+```{css, echo=FALSE}
+.proof {
+  background-color: #f5f5f5;
+  padding: 5px;
+  margin-bottom: 0;
+  width: 100%;
+  overflow: auto;
+}
+
+.special {
+  display: inline-block;
+  font-size: 30px;
+  background-color: #e5f5e0;
+  padding: 4px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  width: fit-content;
+  border-left: 3px solid #73AD21;
+  transition: all ease-in-out 2s;
+  animation: item-hover-off .5s;
+}
+
+.special:hover {
+    transform: scale(1.5);
+    transition: all 1s ease;
+}
+
+.centered-row {
+  text-align: center;
+}
+
+.special-text{
+  display: inline-block;
+  text-align: center;
+}
+```
+
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+   echo = FALSE,
+   message = FALSE,
+   warning = FALSE,
+   eval = TRUE,
+   error = FALSE,
+   comment = ""
+)
+library(magrittr, quietly = TRUE)
+```
+
+Machine Learning has become one of those buzz words that many people say without really knowing what it means, let alone understand what it requires to undertake. The main goal is to, as it's name suggests, to teach computers how to make decisions. In general, we want computers to learn how to make this decisions so that we can task them with boring or repetitive tasks. But other time we use it to create autonomous tasks or to assists humans in improving productivity or making smarter business decisions.
+
+Even thou becoming proficient in modern Machine Learning requires a working understanding of many concepts of and techniques on computer science, in the end it's nothing more than good old statistical modeling. From linear regressions (generally attributed to Galton 1877) to neural networks (introduced by McCulloch in 1943) the theoretical underpinnings of Machine Learning have been around for decades, if not centuries. What has definitely changed in the past 10 years is our capacity to train them and embed them in other systems.
+
+This past semester I taught an undergrad course on Machine Learning covering a wide range of methods, including LM, GLM, GAM, Decision Trees and Random Forest, Bagging, Boosting and Neural Networks. Below I share some notes form the introductory lecture (*"What is statistical learning?"*) and links to the practice exercise we covered during the course.
+
+The introduction is based on James, Witten, Hastie, & Tibshirani (2013) *An introduction to statistical learning*. Course materials also included Hastie, Tibshirani & Friedman (2009) *The elements of statistical learning* and some of the original papers for the different methods. Practice exercises are based on James, Witten, Hastie, & Tibshirani (2013) *An introduction to statistical learning*, Boehmke & Greenwell (2020) *Hands-on Machine Learning with R*, Hothorn & Everitt (2014) *A handbook of statistical analysis using R*, Chollet & Allaire (2017) *Deep Learning with R*.
+
+## What is statistical learning?
+
+- Suppose we observe a quantitative response variable $Y$ and $p$ different predictors $X_1, \, \ldots, \, X_p$
+- We assume that there is some relationship between $Y$ and $X = (X_1, \, \ldots, \, X_p)$ which can be written as
+$$\color{green}{ Y = f(X) + \varepsilon }$$
+where $f$ is an unknown function of $X$ and $\varepsilon$ is a random error term with mean zero and independent of $X$  
+- $f$ represents the systematic information that $X$ provides about $Y$ and must be estimated from the observed information
+- Statistical learning refers to the set of approaches for estimating $f$
+- There are two main reasons why we may want to estimate $f$: prediction or inference
+
+### Prediction
+
+- If $X$ is readily available but $Y$ isn't, since $\mathbf{E}(\varepsilon) = 0$, we can estimate $Y$ by: 
+$$\hat{Y} = \hat{f}(X)$$
+where $\hat{f}$ is the estimate of $f$ and $\hat{Y}$ is the prediction of $\hat{Y}$
+- In a prediction problem we are generally not concerned with the form of $\hat{f}$, as long as it yields good estimates for $Y$
+- The accuracy of $\hat{Y}$ as a prediction for $Y$ depends on two errors:
+  + **the reducible error:** the error we incur into due to the estimation of $\hat{f}$ (since $\hat{f}$ is not $f$).  
+  + **the irreducible error:** arises from the fact that we don't know $\varepsilon$. This may be the result of unmeasured or un-measurable variables.  
+- For a given $\hat{f}$ and $X$, we have that:
+
+$$\begin{array}{rcl}
+\mathbf{E} \left[ \big( Y - \hat{Y} \big)^2 \right] & = & \mathbf{E} \left[ \big( f(X) + \varepsilon - \hat{f}(X) \big)^2 \right] \\
+& = & \mathbf{E} \left[ \Big( \big( f(X) - \hat{f}(X) \big) + \varepsilon \Big)^2 \right] \\
+& = & \mathbf{E} \left[ \big( f(X) - \hat{f}(X) \big)^2 + 2 \varepsilon \big( f(X) - \hat{f}(X) \big) + \varepsilon^2 \right] \\
+& = & \mathbf{E} \left[ \big( f(X) - \hat{f}(X) \big)^2 \right] + 2 \mathbf{E} \left[ \varepsilon \big( f(X) - \hat{f}(X) \big) \right] + \mathbf{E} \left( \varepsilon^2 \right) \\
+& = & \left[ f(X) - \hat{f}(X) \right]^2 + 2 \big( f(X) - \hat{f}(X) \big) \underbrace{ \mathbf{E} \left( \varepsilon \right) }_{= 0} + \mathbf{Var} \left( \varepsilon \right) \\
+& = & \underbrace{ \left[ f(X) - \hat{f}(X) \right]^2 }_{ \text{reducible error} } + \underbrace{ \mathbf{Var} (\varepsilon) }_{ \substack{ \text{irreducible} \\ \text{error} } }
+\end{array}$$
+
+### Inference
+
+- In an inference problem we are interested in understanding how changes in $X_1, \, \ldots, \, X_p$ affect the outcome variable $Y$
+- $\hat{f}$ cannot be treated as a black-box, we need to know its exact form
+
+## Estimating $f$
+
+- We will always assume that we have observed a set of $n$ observations
+$$\Big\{ (x_1, \, y_1), \, (x_2, \, y_2), \, \ldots, \, (x_n, \, y_n) \Big\} \: \text{ where } \: x_i = (x_{i1}, \, x_{i2}, \, \ldots, \, x_{ip})'$$
+- We want to find $\hat{f}$ such that $Y \approx \hat{f}(X)$ for any observation $(X, \, Y)$
+
+#### Parametric Vs. Non-parametric methods
+
+- Parametric methods involve two steps:
+  i. assume a functional form for $f$
+  i. fit the model with the training data
+- Parametric methods are easier to estimate because they reduce the problem to that of estimating a set of parameters
+- The drawback of parametric methods is the impact of choosing the wrong form for $f$
+- This drawback can be partially addressed by fitting more flexible models, but flexible models tend to have many parameters and can lead to overfitting
+- Non-parametric methods make no assumption about the functional form of $f$
+- They seek an estimate that is as close as possible to the data, without being too rough or wiggly
+- The drawback of non-parametric methods is that they require a lot more data to accurately estimate $f$
+
+#### Accuracy Vs Interpretability
+
+- Restrictive methods are much more interpretable, which we want when doing inference
+- Flexible methods can yield good predictions but are very difficult to interpret and can lead to overfitting
+
+#### Supervised Vs Unsupervised
+
+- In a **supervised** problem, for each observation of the predictors $x_i$, we have an outcome value $y_i$
+- In an **unsupervised** problem there is no outcome variable $Y$
+- **Semi-supervised** learning refers to a problem in which for $n < m$ of the observations we do have an outcome value, but not for the remaining $m - n$ observations
+
+#### Regression Vs Clasification
+
+- We refer to problems where the outcome variable is quantitative as **regression** problems
+- We refer to problems where the outcome variable is categorical as **classification** problems
+- The nature of the predictors is, in general, of somewhat less concern
+
+## Assesing model accuracy
+
+- No one method dominates all others over all possible data sets.
+
+#### Quality of fit
+
+- We need to quantify the extent to which the predicted response value for a given observation is close to the true respnse
+- In regression problems we use the MSE
+$$\text{MSE}_{\text{training}} = \frac{1}{n} \sum\limits_{i = 1}^{n} \big[ y_i - \hat{f}(x_i) \big]^2$$
+- The training MSE will be small if for all training observations the predicted response $\hat{f}(x_i)$ is close to the true response $y_i$
+- In spite of this, we are generally more interested in the test MSE.
+$$\text{MSE}_{\text{test}} = \mathbf{Avg} \big[ y_0 - \hat{f}(x_0) \big]^2$$
+- We choose the method with the lowest test MSE
+- There is no guarantee that a fit will low training MSE will have low test MSE too. If the training MSE is low but the testing MSE is high, we are overfitting $f$.
+- The test MSE is usually U-shaped on model flexibility.
+
+#### Bias-Variance trade-off
+
+- The U-shape of the test MSE is the result of two competing properties of statistical learning methods
+- The expected test MSE for a given value $x_0$ can be decomposed into the sum of three quantities:  
+  i. the variance of $\hat{f}(x_0)$  
+  i. the squared bias of $\hat{f}(x_0)$  
+  i. the variance of $\varepsilon$  
+
+$$\mathbf{E} \left[ \Big( y_0 - \hat{f}(x_0) \Big)^2 \right] = \mathbf{Var} \Big( \hat{f}(x_0) \Big) + \mathbf{Bias}^2 \Big( \hat{f}(x_0) \Big) + \mathbf{Var}(\varepsilon)$$
+where $\mathbf{E} \left[ \Big( y_0 - \hat{f}(x_0) \Big)^2 \right]$ is the expected test MSE. That is, it's the average test MSE that we would obtain if we repeately estimated $f$ using a large number of training sets, and tested each at $x_0$. The overall expected test MSE can be computed by averaging $\mathbf{E} \left[ \Big( y_0 - \hat{f}(x_0) \Big)^2 \right]$ over all possible values of $x_0$ in the test set.
+
+<div class="proof">
+
+**Proof**
+
+$$\begin{array}{r c l}
+\mathbf{E} \left[ \Big( y_0 - \hat{f}(x_0) \Big)^2 \right] & = & \mathbf{E} \Big[ \big( y_0 \color{magenta}{- \mathbf{E}(\hat{f}(x_0)) + \mathbf{E}(\hat{f}(x_0)) } - \hat{f}(x_0) \big)^2 \Big] \\
+& = & \mathbf{E} \left\{ \left( \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right] + \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right] \right)^2 \right\} \\
+& = & \mathbf{E} \left\{ \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right]^2 + 2 \, \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right] \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right] + \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right]^2 \right\} \\
+& = & \underbrace{ \mathbf{E} \left\{ \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right]^2 \right\} }_{\text{Statement A}} + 2 \underbrace{ \mathbf{E} \left\{ \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right] \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right] \right\} }_{\text{Statement B}} + \underbrace{ \mathbf{E} \left\{ \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right]^2 \right\} }_{\text{Statement C}} \\
+\end{array}$$
+
+</div>
+<div class="proof">
+
+*Statement A*
+
+$$\begin{array}{r c l}
+\mathbf{E} \left\{ \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right]^2 \right\} & = & \mathbf{E} \left\{ y_0^2 - 2 y_0 \mathbf{E} \big( \hat{f}(x_0) \big) + \mathbf{E}^2 \big( \hat{f}(x_0) \big) \right\} \\
+& = & \mathbf{E} \left\{ \big( f(x_0) + \varepsilon \big)^2 - 2 \big( f(x_0) + \varepsilon \big) \mathbf{E} \big( \hat{f}(x_0) \big) + \mathbf{E}^2 \big( \hat{f}(x_0) \big) \right\} \\
+& = & \mathbf{E} \left\{ \color{dodgerblue}{ f^2(x_0) } + \color{orange}{ \varepsilon^2 } + \color{magenta}{ 2 \varepsilon f(x_0) } - \color{dodgerblue}{ 2 f(x_0) \mathbf{E} \big( \hat{f}(x_0) \big) } - \color{red}{ 2 \varepsilon \mathbf{E} \big( \hat{f}(x_0) \big) } + \color{dodgerblue}{ \mathbf{E}^2 \big( \hat{f}(x_0) \big) } \right\} \\
+& = & \color{dodgerblue}{ \mathbf{E} \left[ f^2(x_0) \right] } + \color{orange}{ \mathbf{E} \left( \varepsilon^2 \right) } + \color{magenta}{ 2 \mathbf{E} \left[ \varepsilon f(x_0) \right] } - \color{dodgerblue}{ 2 \mathbf{E} \left[ f(x_0) \mathbf{E} \big( \hat{f}(x_0) \big) \right] } - \color{red}{ 2 \mathbf{E} \left[ \varepsilon \mathbf{E} \big( \hat{f}(x_0) \big) \right] } + \color{dodgerblue}{ \mathbf{E} \left[ \mathbf{E}^2 \big( \hat{f}(x_0) \big) \right] } \\
+& = & \color{orange}{ \mathbf{Var} ( \varepsilon ) } + \color{dodgerblue}{ f^2(x_0) } + \color{magenta}{ 2 f(x_0) } \underbrace{ \color{magenta}{ \mathbf{E} ( \varepsilon ) } } _{= 0} - \color{dodgerblue}{ 2 f(x_0) \mathbf{E} \big( \hat{f}(x_0) \big) } - \color{red}{ 2 } \underbrace{ \color{red}{ \mathbf{E} ( \varepsilon ) } }_{= 0} \color{red}{ \mathbf{E} \big( \hat{f}(x_0) \big) } + \color{dodgerblue}{ \mathbf{E}^2 \big( \hat{f}(x_0) \big) } \\
+& = & \color{orange}{ \mathbf{Var} ( \varepsilon ) } + \color{dodgerblue}{ f^2(x_0) - 2 f(x_0) \mathbf{E} \big( \hat{f}(x_0) \big) + \mathbf{E}^2 \big( \hat{f}(x_0) \big) } \\
+& = & \color{orange}{ \mathbf{Var} ( \varepsilon ) } + \color{dodgerblue}{ \mathbf{Bias}^2 \big( \hat{f}(x_0) \big) }
+\end{array}$$
+
+</div>
+<div class="proof">
+
+*Statement B*
+
+$$\begin{array}{r c l}
+\mathbf{E} \left\{ \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right] \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right] \right\} & = & \mathbf{E} \left\{ y_0 \mathbf{E} \big( \hat{f}(x_0) \big) - y_0 \hat{f}(x_0) - \mathbf{E}^2 \big( \hat{f}(x_0) \big) + \mathbf{E} \big( \hat{f}(x_0) \big) \hat{f}(x_0) \right\} \\
+& = & \mathbf{E} \left[ y_0 \mathbf{E} \big( \hat{f}(x_0) \big) \right] - \mathbf{E} \left[ y_0 \hat{f}(x_0) \right] - \mathbf{E} \left[ \mathbf{E}^2 \big( \hat{f}(x_0) \big) \right] + \mathbf{E} \left[\mathbf{E} \big( \hat{f}(x_0) \big) \hat{f}(x_0) \right] \\
+& = & \mathbf{E} ( \color{orange}{ y_0 }) \mathbf{E} \big( \hat{f}(x_0) \big) - \mathbf{E} \left[ \color{dodgerblue}{ y_0 } \hat{f}(x_0) \right] - \mathbf{E}^2 \big( \hat{f}(x_0) \big) + \mathbf{E} \big( \hat{f}(x_0) \big) \mathbf{E} \big( \hat{f}(x_0) \big) \\
+& = & \mathbf{E} \big( \color{orange}{ f(x_0) + \varepsilon } \big) \mathbf{E} \big( \hat{f}(x_0) \big) - \mathbf{E} \left[ \big( \color{dodgerblue}{ f(x_0) + \varepsilon } \big) \hat{f}(x_0) \right] \color{magenta}{ - \mathbf{E}^2 \big( \hat{f}(x_0) \big) + \mathbf{E}^2 \big( \hat{f}(x_0) \big) } \\
+& = & \mathbf{E} \big( \color{orange}{ f(x_0) } \big) \mathbf{E} \big( \hat{f}(x_0) \big) + \underbrace{ \mathbf{E} \big( \color{orange}{ \varepsilon } \big) }_{= 0} \mathbf{E} \big( \hat{f}(x_0) \big) - \mathbf{E} \left[ \big( \color{dodgerblue}{ f(x_0) + \varepsilon } \big) \hat{f}(x_0) \right] \\
+& = & \color{orange}{ f(x_0) } \mathbf{E} \big( \hat{f}(x_0) \big) - \mathbf{E} \left[ \big( \color{dodgerblue}{ f(x_0) } \hat{f}(x_0) \right] + \mathbf{E} \left[ \color{dodgerblue}{ \varepsilon } \hat{f}(x_0) \big) \right] \\
+& = & \color{magenta}{ f(x_0) \mathbf{E} \big( \hat{f}(x_0) \big) - f(x_0) \mathbf{E} \big( \hat{f}(x_0) \big) } + \mathbf{E} \left[ \color{dodgerblue}{ \varepsilon } \hat{f}(x_0) \big) \right] \\
+& = & \mathbf{E} \left[ \color{dodgerblue}{ \varepsilon } \hat{f}(x_0) \big) \right] \\
+& = & \underbrace{ \mathbf{E} ( \color{dodgerblue}{ \varepsilon } ) }_{= 0} \mathbf{E} \big( \hat{f}(x_0) \big) \\
+& = & 0
+\end{array}$$
+
+</div>
+<div class="proof">
+
+*Statement C*
+
+$$\begin{array}{r c l}
+\mathbf{E} \left\{ \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right]^2 \right\} & = & \mathbf{E} \left\{ \mathbf{E}^2 \big( \hat{f}(x_0) \big) - 2 \mathbf{E} \big( \hat{f}(x_0) \big) \hat{f}(x_0) + \hat{f}^2 (x_0) \right\} \\
+& = & \mathbf{E} \left\{ \mathbf{E}^2 \big( \hat{f}(x_0) \big) \right\} - 2 \mathbf{E} \left\{ \mathbf{E} \big( \hat{f}(x_0) \big) \hat{f}(x_0) \right\} + \mathbf{E} \left\{ \hat{f}^2 (x_0) \right\} \\
+& = & \mathbf{E}^2 \big( \hat{f}(x_0) \big) - 2 \mathbf{E}^2 \big( \hat{f}(x_0) \big) + \mathbf{E} \left( \hat{f}^2 (x_0) \right) \\
+& = & - \mathbf{E}^2 \big( \hat{f}(x_0) \big) + \mathbf{E} \left( \hat{f}^2 (x_0) \right) \\
+& = & \mathbf{Var} \big( \hat{f}(x_0) \big)
+\end{array}$$
+
+</div>
+<div class="proof">
+
+If we now sum statements A and C we get that
+$$\mathbf{E} \left[ \Big( y_0 - \hat{f}(x_0) \Big)^2 \right] = \mathbf{Var} \Big( \hat{f}(x_0) \Big) + \mathbf{Bias}^2 \Big( \hat{f}(x_0) \Big) + \mathbf{Var}(\varepsilon)$$
+</div>
+***
+
+- This equation tells as that in order to minimize test MSE, we need to simultaneously achieve low variance and low bias.
+- Since $\mathbf{Var} \Big( \hat{f}(x_0) \Big) \geq 0$ and $\mathbf{Bias}^2 \Big( \hat{f}(x_0) \Big) \geq 0$, the expected test MSE can never be lower than $\mathbf{Var}(\varepsilon)$, the irreducible error.  
+  + By $\mathbf{Var} \Big( \hat{f}(x_0) \Big)$ we mean the amount by which $\hat{f}(x_0)$ would change if we estimated $\hat{f}$ using a different training set. In general, more flexible methods have a higher variance.  
+  + By $\mathbf{Bias} \Big( \hat{f}(x_0) \Big)$ we refer to the problem of estimating a complicated real-life problem with a much simpler model. In general, more flexible methods result in less bias.  
+
+<div class="centered-row">
+<div class="special">
+<div class="special-text">
+$\uparrow$ Flexibility $\Rightarrow$ $\uparrow$ Variance $\, \downarrow$ Bias
+</div>
+</div>
+</div>
+
+<br>
+
+- The rate of change of the variance and bias as we change the method's flexibility will determine whether the test MSE increases or decreases
+- This relationship between a model variance and its bias is referred to as the bias-variance trade-off
+
+#### Classification
+
+- In a classification setting model accuracy is measured by the training *error rate*. This is the proportion of mistakes that the model makes when classifying the data.
+$$\text{error rate}_{\text{training}} = \frac{1}{n} \sum\limits_{i = 1}^{n} \text{I}_{( y_i \neq \hat{y}_i)} \,\,\, \text{ where } \,\,\, \text{I}_{( y_i \neq \hat{y}_i)} = \left\{ \begin{array}{rcl} 1 & \text{if} & y_i \neq \hat{y}_i \\ 0 & \text{if} & y_i = \hat{y}_i \end{array} \right.$$
+- Just as in the regression setting, we want to judge models based on the test error rate, not the training error rate. The test error rate associated with a set of observations $(x_0, \, y_0)$ if  given by
+$$\text{error rate}_{\text{test}} = \mathbf{Avg} \left( \text{I}_{( y_0 \neq \hat{y}_0)} \right)$$
+- A good model is one that minimizes the test error rate
+
+#### Bayes classifier
+
+- The test ER is minimized, on average, by assigning each observation to the most likely class, given its predictor values. This requires assigning observation $x_0$ to the class $j$ with largest
+$$\Pr(Y = j | X = x_0)$$
+- The set of points where the probability is the same for more than one class (and thus the rule does not decide) is called the *Bayes decision boundary*.
+- The Bayes classifier produces the lowest possible ER, called the *Bayes error rate*, which can be expressed, for $X = x_0$, as
+$$1 - \max\limits_j \Big\{ \Pr (Y = j | X = x_0) \Big\}$$
+and for all observations is a data set as
+$$\text{BER} = 1 - \mathbf{E} \left( \max\limits_j \Big\{ \Pr (Y = j | X = x_0) \Big\} \right)$$
+where the expected value $\mathbf{E}(.)$ averages the probability over all possible values of $X$
+
+***
+
+In the following links you can find the scripts for the different practice exercises with covered on the course.
+
+- [Linear Models](https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/02_lm)
+- [Generalized Linear Models](https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/03_glm)
+- [Generalized Additive Models](https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/04_gam)
+- [Decision Trees](https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/05_trees)
+- [Bagging, Random Forest & Boosting](https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/06_ensemble_methods_for_trees)
+- [Neural Networks](https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/07_neural_networks)

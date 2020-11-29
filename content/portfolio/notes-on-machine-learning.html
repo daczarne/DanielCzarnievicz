@@ -1,0 +1,287 @@
+---
+date: '2020-11-29'
+draft: false
+title: "Notes on Machine Learning"
+weight: 7
+output: blogdown::html_page
+---
+
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p>Practice exercises from my course on Machine Learning</p>
+<!--more-->
+<style type="text/css">
+.proof {
+  background-color: #f5f5f5;
+  padding: 5px;
+  margin-bottom: 0;
+  width: 100%;
+  overflow: auto;
+}
+
+.special {
+  display: inline-block;
+  font-size: 30px;
+  background-color: #e5f5e0;
+  padding: 4px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  width: fit-content;
+  border-left: 3px solid #73AD21;
+  transition: all ease-in-out 2s;
+  animation: item-hover-off .5s;
+}
+
+.special:hover {
+    transform: scale(1.5);
+    transition: all 1s ease;
+}
+
+.centered-row {
+  text-align: center;
+}
+
+.special-text{
+  display: inline-block;
+  text-align: center;
+}
+</style>
+<p>Machine Learning has become one of those buzz words that many people say without really knowing what it means, let alone understand what it requires to undertake. The main goal is to, as it’s name suggests, to teach computers how to make decisions. In general, we want computers to learn how to make this decisions so that we can task them with boring or repetitive tasks. But other time we use it to create autonomous tasks or to assists humans in improving productivity or making smarter business decisions.</p>
+<p>Even thou becoming proficient in modern Machine Learning requires a working understanding of many concepts of and techniques on computer science, in the end it’s nothing more than good old statistical modeling. From linear regressions (generally attributed to Galton 1877) to neural networks (introduced by McCulloch in 1943) the theoretical underpinnings of Machine Learning have been around for decades, if not centuries. What has definitely changed in the past 10 years is our capacity to train them and embed them in other systems.</p>
+<p>This past semester I taught an undergrad course on Machine Learning covering a wide range of methods, including LM, GLM, GAM, Decision Trees and Random Forest, Bagging, Boosting and Neural Networks. Below I share some notes form the introductory lecture (<em>“What is statistical learning?”</em>) and links to the practice exercise we covered during the course.</p>
+<p>The introduction is based on James, Witten, Hastie, &amp; Tibshirani (2013) <em>An introduction to statistical learning</em>. Course materials also included Hastie, Tibshirani &amp; Friedman (2009) <em>The elements of statistical learning</em> and some of the original papers for the different methods. Practice exercises are based on James, Witten, Hastie, &amp; Tibshirani (2013) <em>An introduction to statistical learning</em>, Boehmke &amp; Greenwell (2020) <em>Hands-on Machine Learning with R</em>, Hothorn &amp; Everitt (2014) <em>A handbook of statistical analysis using R</em>, Chollet &amp; Allaire (2017) <em>Deep Learning with R</em>.</p>
+<div id="what-is-statistical-learning" class="section level2">
+<h2>What is statistical learning?</h2>
+<ul>
+<li>Suppose we observe a quantitative response variable <span class="math inline">\(Y\)</span> and <span class="math inline">\(p\)</span> different predictors <span class="math inline">\(X_1, \, \ldots, \, X_p\)</span></li>
+<li>We assume that there is some relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(X = (X_1, \, \ldots, \, X_p)\)</span> which can be written as
+<span class="math display">\[\color{green}{ Y = f(X) + \varepsilon }\]</span>
+where <span class="math inline">\(f\)</span> is an unknown function of <span class="math inline">\(X\)</span> and <span class="math inline">\(\varepsilon\)</span> is a random error term with mean zero and independent of <span class="math inline">\(X\)</span><br />
+</li>
+<li><span class="math inline">\(f\)</span> represents the systematic information that <span class="math inline">\(X\)</span> provides about <span class="math inline">\(Y\)</span> and must be estimated from the observed information</li>
+<li>Statistical learning refers to the set of approaches for estimating <span class="math inline">\(f\)</span></li>
+<li>There are two main reasons why we may want to estimate <span class="math inline">\(f\)</span>: prediction or inference</li>
+</ul>
+<div id="prediction" class="section level3">
+<h3>Prediction</h3>
+<ul>
+<li>If <span class="math inline">\(X\)</span> is readily available but <span class="math inline">\(Y\)</span> isn’t, since <span class="math inline">\(\mathbf{E}(\varepsilon) = 0\)</span>, we can estimate <span class="math inline">\(Y\)</span> by:
+<span class="math display">\[\hat{Y} = \hat{f}(X)\]</span>
+where <span class="math inline">\(\hat{f}\)</span> is the estimate of <span class="math inline">\(f\)</span> and <span class="math inline">\(\hat{Y}\)</span> is the prediction of <span class="math inline">\(\hat{Y}\)</span></li>
+<li>In a prediction problem we are generally not concerned with the form of <span class="math inline">\(\hat{f}\)</span>, as long as it yields good estimates for <span class="math inline">\(Y\)</span></li>
+<li>The accuracy of <span class="math inline">\(\hat{Y}\)</span> as a prediction for <span class="math inline">\(Y\)</span> depends on two errors:
+<ul>
+<li><strong>the reducible error:</strong> the error we incur into due to the estimation of <span class="math inline">\(\hat{f}\)</span> (since <span class="math inline">\(\hat{f}\)</span> is not <span class="math inline">\(f\)</span>).<br />
+</li>
+<li><strong>the irreducible error:</strong> arises from the fact that we don’t know <span class="math inline">\(\varepsilon\)</span>. This may be the result of unmeasured or un-measurable variables.<br />
+</li>
+</ul></li>
+<li>For a given <span class="math inline">\(\hat{f}\)</span> and <span class="math inline">\(X\)</span>, we have that:</li>
+</ul>
+<p><span class="math display">\[\begin{array}{rcl}
+\mathbf{E} \left[ \big( Y - \hat{Y} \big)^2 \right] &amp; = &amp; \mathbf{E} \left[ \big( f(X) + \varepsilon - \hat{f}(X) \big)^2 \right] \\
+&amp; = &amp; \mathbf{E} \left[ \Big( \big( f(X) - \hat{f}(X) \big) + \varepsilon \Big)^2 \right] \\
+&amp; = &amp; \mathbf{E} \left[ \big( f(X) - \hat{f}(X) \big)^2 + 2 \varepsilon \big( f(X) - \hat{f}(X) \big) + \varepsilon^2 \right] \\
+&amp; = &amp; \mathbf{E} \left[ \big( f(X) - \hat{f}(X) \big)^2 \right] + 2 \mathbf{E} \left[ \varepsilon \big( f(X) - \hat{f}(X) \big) \right] + \mathbf{E} \left( \varepsilon^2 \right) \\
+&amp; = &amp; \left[ f(X) - \hat{f}(X) \right]^2 + 2 \big( f(X) - \hat{f}(X) \big) \underbrace{ \mathbf{E} \left( \varepsilon \right) }_{= 0} + \mathbf{Var} \left( \varepsilon \right) \\
+&amp; = &amp; \underbrace{ \left[ f(X) - \hat{f}(X) \right]^2 }_{ \text{reducible error} } + \underbrace{ \mathbf{Var} (\varepsilon) }_{ \substack{ \text{irreducible} \\ \text{error} } }
+\end{array}\]</span></p>
+</div>
+<div id="inference" class="section level3">
+<h3>Inference</h3>
+<ul>
+<li>In an inference problem we are interested in understanding how changes in <span class="math inline">\(X_1, \, \ldots, \, X_p\)</span> affect the outcome variable <span class="math inline">\(Y\)</span></li>
+<li><span class="math inline">\(\hat{f}\)</span> cannot be treated as a black-box, we need to know its exact form</li>
+</ul>
+</div>
+</div>
+<div id="estimating-f" class="section level2">
+<h2>Estimating <span class="math inline">\(f\)</span></h2>
+<ul>
+<li>We will always assume that we have observed a set of <span class="math inline">\(n\)</span> observations
+<span class="math display">\[\Big\{ (x_1, \, y_1), \, (x_2, \, y_2), \, \ldots, \, (x_n, \, y_n) \Big\} \: \text{ where } \: x_i = (x_{i1}, \, x_{i2}, \, \ldots, \, x_{ip})&#39;\]</span></li>
+<li>We want to find <span class="math inline">\(\hat{f}\)</span> such that <span class="math inline">\(Y \approx \hat{f}(X)\)</span> for any observation <span class="math inline">\((X, \, Y)\)</span></li>
+</ul>
+<div id="parametric-vs.-non-parametric-methods" class="section level4">
+<h4>Parametric Vs. Non-parametric methods</h4>
+<ul>
+<li>Parametric methods involve two steps:
+<ol style="list-style-type: lower-roman">
+<li>assume a functional form for <span class="math inline">\(f\)</span></li>
+<li>fit the model with the training data</li>
+</ol></li>
+<li>Parametric methods are easier to estimate because they reduce the problem to that of estimating a set of parameters</li>
+<li>The drawback of parametric methods is the impact of choosing the wrong form for <span class="math inline">\(f\)</span></li>
+<li>This drawback can be partially addressed by fitting more flexible models, but flexible models tend to have many parameters and can lead to overfitting</li>
+<li>Non-parametric methods make no assumption about the functional form of <span class="math inline">\(f\)</span></li>
+<li>They seek an estimate that is as close as possible to the data, without being too rough or wiggly</li>
+<li>The drawback of non-parametric methods is that they require a lot more data to accurately estimate <span class="math inline">\(f\)</span></li>
+</ul>
+</div>
+<div id="accuracy-vs-interpretability" class="section level4">
+<h4>Accuracy Vs Interpretability</h4>
+<ul>
+<li>Restrictive methods are much more interpretable, which we want when doing inference</li>
+<li>Flexible methods can yield good predictions but are very difficult to interpret and can lead to overfitting</li>
+</ul>
+</div>
+<div id="supervised-vs-unsupervised" class="section level4">
+<h4>Supervised Vs Unsupervised</h4>
+<ul>
+<li>In a <strong>supervised</strong> problem, for each observation of the predictors <span class="math inline">\(x_i\)</span>, we have an outcome value <span class="math inline">\(y_i\)</span></li>
+<li>In an <strong>unsupervised</strong> problem there is no outcome variable <span class="math inline">\(Y\)</span></li>
+<li><strong>Semi-supervised</strong> learning refers to a problem in which for <span class="math inline">\(n &lt; m\)</span> of the observations we do have an outcome value, but not for the remaining <span class="math inline">\(m - n\)</span> observations</li>
+</ul>
+</div>
+<div id="regression-vs-clasification" class="section level4">
+<h4>Regression Vs Clasification</h4>
+<ul>
+<li>We refer to problems where the outcome variable is quantitative as <strong>regression</strong> problems</li>
+<li>We refer to problems where the outcome variable is categorical as <strong>classification</strong> problems</li>
+<li>The nature of the predictors is, in general, of somewhat less concern</li>
+</ul>
+</div>
+</div>
+<div id="assesing-model-accuracy" class="section level2">
+<h2>Assesing model accuracy</h2>
+<ul>
+<li>No one method dominates all others over all possible data sets.</li>
+</ul>
+<div id="quality-of-fit" class="section level4">
+<h4>Quality of fit</h4>
+<ul>
+<li>We need to quantify the extent to which the predicted response value for a given observation is close to the true respnse</li>
+<li>In regression problems we use the MSE
+<span class="math display">\[\text{MSE}_{\text{training}} = \frac{1}{n} \sum\limits_{i = 1}^{n} \big[ y_i - \hat{f}(x_i) \big]^2\]</span></li>
+<li>The training MSE will be small if for all training observations the predicted response <span class="math inline">\(\hat{f}(x_i)\)</span> is close to the true response <span class="math inline">\(y_i\)</span></li>
+<li>In spite of this, we are generally more interested in the test MSE.
+<span class="math display">\[\text{MSE}_{\text{test}} = \mathbf{Avg} \big[ y_0 - \hat{f}(x_0) \big]^2\]</span></li>
+<li>We choose the method with the lowest test MSE</li>
+<li>There is no guarantee that a fit will low training MSE will have low test MSE too. If the training MSE is low but the testing MSE is high, we are overfitting <span class="math inline">\(f\)</span>.</li>
+<li>The test MSE is usually U-shaped on model flexibility.</li>
+</ul>
+</div>
+<div id="bias-variance-trade-off" class="section level4">
+<h4>Bias-Variance trade-off</h4>
+<ul>
+<li>The U-shape of the test MSE is the result of two competing properties of statistical learning methods</li>
+<li>The expected test MSE for a given value <span class="math inline">\(x_0\)</span> can be decomposed into the sum of three quantities:
+<ol style="list-style-type: lower-roman">
+<li>the variance of <span class="math inline">\(\hat{f}(x_0)\)</span><br />
+</li>
+<li>the squared bias of <span class="math inline">\(\hat{f}(x_0)\)</span><br />
+</li>
+<li>the variance of <span class="math inline">\(\varepsilon\)</span></li>
+</ol></li>
+</ul>
+<p><span class="math display">\[\mathbf{E} \left[ \Big( y_0 - \hat{f}(x_0) \Big)^2 \right] = \mathbf{Var} \Big( \hat{f}(x_0) \Big) + \mathbf{Bias}^2 \Big( \hat{f}(x_0) \Big) + \mathbf{Var}(\varepsilon)\]</span>
+where <span class="math inline">\(\mathbf{E} \left[ \Big( y_0 - \hat{f}(x_0) \Big)^2 \right]\)</span> is the expected test MSE. That is, it’s the average test MSE that we would obtain if we repeately estimated <span class="math inline">\(f\)</span> using a large number of training sets, and tested each at <span class="math inline">\(x_0\)</span>. The overall expected test MSE can be computed by averaging <span class="math inline">\(\mathbf{E} \left[ \Big( y_0 - \hat{f}(x_0) \Big)^2 \right]\)</span> over all possible values of <span class="math inline">\(x_0\)</span> in the test set.</p>
+<div class="proof">
+<p><span id="unlabeled-div-1" class="proof"><em>Proof</em>. </span><strong>Proof</strong></p>
+<p><span class="math display">\[\begin{array}{r c l}
+\mathbf{E} \left[ \Big( y_0 - \hat{f}(x_0) \Big)^2 \right] &amp; = &amp; \mathbf{E} \Big[ \big( y_0 \color{magenta}{- \mathbf{E}(\hat{f}(x_0)) + \mathbf{E}(\hat{f}(x_0)) } - \hat{f}(x_0) \big)^2 \Big] \\
+&amp; = &amp; \mathbf{E} \left\{ \left( \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right] + \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right] \right)^2 \right\} \\
+&amp; = &amp; \mathbf{E} \left\{ \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right]^2 + 2 \, \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right] \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right] + \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right]^2 \right\} \\
+&amp; = &amp; \underbrace{ \mathbf{E} \left\{ \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right]^2 \right\} }_{\text{Statement A}} + 2 \underbrace{ \mathbf{E} \left\{ \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right] \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right] \right\} }_{\text{Statement B}} + \underbrace{ \mathbf{E} \left\{ \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right]^2 \right\} }_{\text{Statement C}} \\
+\end{array}\]</span></p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-2" class="proof"><em>Proof</em>. </span><em>Statement A</em></p>
+<p><span class="math display">\[\begin{array}{r c l}
+\mathbf{E} \left\{ \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right]^2 \right\} &amp; = &amp; \mathbf{E} \left\{ y_0^2 - 2 y_0 \mathbf{E} \big( \hat{f}(x_0) \big) + \mathbf{E}^2 \big( \hat{f}(x_0) \big) \right\} \\
+&amp; = &amp; \mathbf{E} \left\{ \big( f(x_0) + \varepsilon \big)^2 - 2 \big( f(x_0) + \varepsilon \big) \mathbf{E} \big( \hat{f}(x_0) \big) + \mathbf{E}^2 \big( \hat{f}(x_0) \big) \right\} \\
+&amp; = &amp; \mathbf{E} \left\{ \color{dodgerblue}{ f^2(x_0) } + \color{orange}{ \varepsilon^2 } + \color{magenta}{ 2 \varepsilon f(x_0) } - \color{dodgerblue}{ 2 f(x_0) \mathbf{E} \big( \hat{f}(x_0) \big) } - \color{red}{ 2 \varepsilon \mathbf{E} \big( \hat{f}(x_0) \big) } + \color{dodgerblue}{ \mathbf{E}^2 \big( \hat{f}(x_0) \big) } \right\} \\
+&amp; = &amp; \color{dodgerblue}{ \mathbf{E} \left[ f^2(x_0) \right] } + \color{orange}{ \mathbf{E} \left( \varepsilon^2 \right) } + \color{magenta}{ 2 \mathbf{E} \left[ \varepsilon f(x_0) \right] } - \color{dodgerblue}{ 2 \mathbf{E} \left[ f(x_0) \mathbf{E} \big( \hat{f}(x_0) \big) \right] } - \color{red}{ 2 \mathbf{E} \left[ \varepsilon \mathbf{E} \big( \hat{f}(x_0) \big) \right] } + \color{dodgerblue}{ \mathbf{E} \left[ \mathbf{E}^2 \big( \hat{f}(x_0) \big) \right] } \\
+&amp; = &amp; \color{orange}{ \mathbf{Var} ( \varepsilon ) } + \color{dodgerblue}{ f^2(x_0) } + \color{magenta}{ 2 f(x_0) } \underbrace{ \color{magenta}{ \mathbf{E} ( \varepsilon ) } } _{= 0} - \color{dodgerblue}{ 2 f(x_0) \mathbf{E} \big( \hat{f}(x_0) \big) } - \color{red}{ 2 } \underbrace{ \color{red}{ \mathbf{E} ( \varepsilon ) } }_{= 0} \color{red}{ \mathbf{E} \big( \hat{f}(x_0) \big) } + \color{dodgerblue}{ \mathbf{E}^2 \big( \hat{f}(x_0) \big) } \\
+&amp; = &amp; \color{orange}{ \mathbf{Var} ( \varepsilon ) } + \color{dodgerblue}{ f^2(x_0) - 2 f(x_0) \mathbf{E} \big( \hat{f}(x_0) \big) + \mathbf{E}^2 \big( \hat{f}(x_0) \big) } \\
+&amp; = &amp; \color{orange}{ \mathbf{Var} ( \varepsilon ) } + \color{dodgerblue}{ \mathbf{Bias}^2 \big( \hat{f}(x_0) \big) }
+\end{array}\]</span></p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-3" class="proof"><em>Proof</em>. </span><em>Statement B</em></p>
+<p><span class="math display">\[\begin{array}{r c l}
+\mathbf{E} \left\{ \left[ y_0 - \mathbf{E} \big( \hat{f}(x_0) \big) \right] \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right] \right\} &amp; = &amp; \mathbf{E} \left\{ y_0 \mathbf{E} \big( \hat{f}(x_0) \big) - y_0 \hat{f}(x_0) - \mathbf{E}^2 \big( \hat{f}(x_0) \big) + \mathbf{E} \big( \hat{f}(x_0) \big) \hat{f}(x_0) \right\} \\
+&amp; = &amp; \mathbf{E} \left[ y_0 \mathbf{E} \big( \hat{f}(x_0) \big) \right] - \mathbf{E} \left[ y_0 \hat{f}(x_0) \right] - \mathbf{E} \left[ \mathbf{E}^2 \big( \hat{f}(x_0) \big) \right] + \mathbf{E} \left[\mathbf{E} \big( \hat{f}(x_0) \big) \hat{f}(x_0) \right] \\
+&amp; = &amp; \mathbf{E} ( \color{orange}{ y_0 }) \mathbf{E} \big( \hat{f}(x_0) \big) - \mathbf{E} \left[ \color{dodgerblue}{ y_0 } \hat{f}(x_0) \right] - \mathbf{E}^2 \big( \hat{f}(x_0) \big) + \mathbf{E} \big( \hat{f}(x_0) \big) \mathbf{E} \big( \hat{f}(x_0) \big) \\
+&amp; = &amp; \mathbf{E} \big( \color{orange}{ f(x_0) + \varepsilon } \big) \mathbf{E} \big( \hat{f}(x_0) \big) - \mathbf{E} \left[ \big( \color{dodgerblue}{ f(x_0) + \varepsilon } \big) \hat{f}(x_0) \right] \color{magenta}{ - \mathbf{E}^2 \big( \hat{f}(x_0) \big) + \mathbf{E}^2 \big( \hat{f}(x_0) \big) } \\
+&amp; = &amp; \mathbf{E} \big( \color{orange}{ f(x_0) } \big) \mathbf{E} \big( \hat{f}(x_0) \big) + \underbrace{ \mathbf{E} \big( \color{orange}{ \varepsilon } \big) }_{= 0} \mathbf{E} \big( \hat{f}(x_0) \big) - \mathbf{E} \left[ \big( \color{dodgerblue}{ f(x_0) + \varepsilon } \big) \hat{f}(x_0) \right] \\
+&amp; = &amp; \color{orange}{ f(x_0) } \mathbf{E} \big( \hat{f}(x_0) \big) - \mathbf{E} \left[ \big( \color{dodgerblue}{ f(x_0) } \hat{f}(x_0) \right] + \mathbf{E} \left[ \color{dodgerblue}{ \varepsilon } \hat{f}(x_0) \big) \right] \\
+&amp; = &amp; \color{magenta}{ f(x_0) \mathbf{E} \big( \hat{f}(x_0) \big) - f(x_0) \mathbf{E} \big( \hat{f}(x_0) \big) } + \mathbf{E} \left[ \color{dodgerblue}{ \varepsilon } \hat{f}(x_0) \big) \right] \\
+&amp; = &amp; \mathbf{E} \left[ \color{dodgerblue}{ \varepsilon } \hat{f}(x_0) \big) \right] \\
+&amp; = &amp; \underbrace{ \mathbf{E} ( \color{dodgerblue}{ \varepsilon } ) }_{= 0} \mathbf{E} \big( \hat{f}(x_0) \big) \\
+&amp; = &amp; 0
+\end{array}\]</span></p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-4" class="proof"><em>Proof</em>. </span><em>Statement C</em></p>
+<p><span class="math display">\[\begin{array}{r c l}
+\mathbf{E} \left\{ \left[ \mathbf{E} \big( \hat{f}(x_0) \big) - \hat{f}(x_0) \right]^2 \right\} &amp; = &amp; \mathbf{E} \left\{ \mathbf{E}^2 \big( \hat{f}(x_0) \big) - 2 \mathbf{E} \big( \hat{f}(x_0) \big) \hat{f}(x_0) + \hat{f}^2 (x_0) \right\} \\
+&amp; = &amp; \mathbf{E} \left\{ \mathbf{E}^2 \big( \hat{f}(x_0) \big) \right\} - 2 \mathbf{E} \left\{ \mathbf{E} \big( \hat{f}(x_0) \big) \hat{f}(x_0) \right\} + \mathbf{E} \left\{ \hat{f}^2 (x_0) \right\} \\
+&amp; = &amp; \mathbf{E}^2 \big( \hat{f}(x_0) \big) - 2 \mathbf{E}^2 \big( \hat{f}(x_0) \big) + \mathbf{E} \left( \hat{f}^2 (x_0) \right) \\
+&amp; = &amp; - \mathbf{E}^2 \big( \hat{f}(x_0) \big) + \mathbf{E} \left( \hat{f}^2 (x_0) \right) \\
+&amp; = &amp; \mathbf{Var} \big( \hat{f}(x_0) \big)
+\end{array}\]</span></p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-5" class="proof"><em>Proof</em>. </span>If we now sum statements A and C we get that
+<span class="math display">\[\mathbf{E} \left[ \Big( y_0 - \hat{f}(x_0) \Big)^2 \right] = \mathbf{Var} \Big( \hat{f}(x_0) \Big) + \mathbf{Bias}^2 \Big( \hat{f}(x_0) \Big) + \mathbf{Var}(\varepsilon)\]</span></p>
+</div>
+<hr />
+<ul>
+<li>This equation tells as that in order to minimize test MSE, we need to simultaneously achieve low variance and low bias.</li>
+<li>Since <span class="math inline">\(\mathbf{Var} \Big( \hat{f}(x_0) \Big) \geq 0\)</span> and <span class="math inline">\(\mathbf{Bias}^2 \Big( \hat{f}(x_0) \Big) \geq 0\)</span>, the expected test MSE can never be lower than <span class="math inline">\(\mathbf{Var}(\varepsilon)\)</span>, the irreducible error.
+<ul>
+<li>By <span class="math inline">\(\mathbf{Var} \Big( \hat{f}(x_0) \Big)\)</span> we mean the amount by which <span class="math inline">\(\hat{f}(x_0)\)</span> would change if we estimated <span class="math inline">\(\hat{f}\)</span> using a different training set. In general, more flexible methods have a higher variance.<br />
+</li>
+<li>By <span class="math inline">\(\mathbf{Bias} \Big( \hat{f}(x_0) \Big)\)</span> we refer to the problem of estimating a complicated real-life problem with a much simpler model. In general, more flexible methods result in less bias.</li>
+</ul></li>
+</ul>
+<div class="centered-row">
+<div class="special">
+<div class="special-text">
+<p><span class="math inline">\(\uparrow\)</span> Flexibility <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\uparrow\)</span> Variance <span class="math inline">\(\, \downarrow\)</span> Bias</p>
+</div>
+</div>
+</div>
+<p><br></p>
+<ul>
+<li>The rate of change of the variance and bias as we change the method’s flexibility will determine whether the test MSE increases or decreases</li>
+<li>This relationship between a model variance and its bias is referred to as the bias-variance trade-off</li>
+</ul>
+</div>
+<div id="classification" class="section level4">
+<h4>Classification</h4>
+<ul>
+<li>In a classification setting model accuracy is measured by the training <em>error rate</em>. This is the proportion of mistakes that the model makes when classifying the data.
+<span class="math display">\[\text{error rate}_{\text{training}} = \frac{1}{n} \sum\limits_{i = 1}^{n} \text{I}_{( y_i \neq \hat{y}_i)} \,\,\, \text{ where } \,\,\, \text{I}_{( y_i \neq \hat{y}_i)} = \left\{ \begin{array}{rcl} 1 &amp; \text{if} &amp; y_i \neq \hat{y}_i \\ 0 &amp; \text{if} &amp; y_i = \hat{y}_i \end{array} \right.\]</span></li>
+<li>Just as in the regression setting, we want to judge models based on the test error rate, not the training error rate. The test error rate associated with a set of observations <span class="math inline">\((x_0, \, y_0)\)</span> if given by
+<span class="math display">\[\text{error rate}_{\text{test}} = \mathbf{Avg} \left( \text{I}_{( y_0 \neq \hat{y}_0)} \right)\]</span></li>
+<li>A good model is one that minimizes the test error rate</li>
+</ul>
+</div>
+<div id="bayes-classifier" class="section level4">
+<h4>Bayes classifier</h4>
+<ul>
+<li>The test ER is minimized, on average, by assigning each observation to the most likely class, given its predictor values. This requires assigning observation <span class="math inline">\(x_0\)</span> to the class <span class="math inline">\(j\)</span> with largest
+<span class="math display">\[\Pr(Y = j | X = x_0)\]</span></li>
+<li>The set of points where the probability is the same for more than one class (and thus the rule does not decide) is called the <em>Bayes decision boundary</em>.</li>
+<li>The Bayes classifier produces the lowest possible ER, called the <em>Bayes error rate</em>, which can be expressed, for <span class="math inline">\(X = x_0\)</span>, as
+<span class="math display">\[1 - \max\limits_j \Big\{ \Pr (Y = j | X = x_0) \Big\}\]</span>
+and for all observations is a data set as
+<span class="math display">\[\text{BER} = 1 - \mathbf{E} \left( \max\limits_j \Big\{ \Pr (Y = j | X = x_0) \Big\} \right)\]</span>
+where the expected value <span class="math inline">\(\mathbf{E}(.)\)</span> averages the probability over all possible values of <span class="math inline">\(X\)</span></li>
+</ul>
+<hr />
+<p>In the following links you can find the scripts for the different practice exercises with covered on the course.</p>
+<ul>
+<li><a href="https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/02_lm">Linear Models</a></li>
+<li><a href="https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/03_glm">Generalized Linear Models</a></li>
+<li><a href="https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/04_gam">Generalized Additive Models</a></li>
+<li><a href="https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/05_trees">Decision Trees</a></li>
+<li><a href="https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/06_ensemble_methods_for_trees">Bagging, Random Forest &amp; Boosting</a></li>
+<li><a href="https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/07_neural_networks">Neural Networks</a></li>
+</ul>
+</div>
+</div>
