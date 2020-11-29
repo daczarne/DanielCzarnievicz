@@ -6,7 +6,7 @@ weight: 0
 output: blogdown::html_page
 ---
 
-Resumenes de los cursos de muestreo del Instituto de Estadística (IESTA - FCEA - Udelar).
+Resúmenes de los cursos de muestreo del Instituto de Estadística (IESTA - FCEA - Udelar).
 
 <!--more-->
 
@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 library(magrittr, quietly = TRUE)
 ```
 
-Aquí podrás encontrar algunos resumenes sobre las técnicas de muestreo cubiertas en los cursos de muestreo del IESTA. El material que aquí se presenta está basado en el libro *Model Assisted Survey Sampling* de Särndal, Swensson y Wretman.
+Aquí podrás encontrar algunos resúmenes sobre las técnicas de muestreo cubiertas en los cursos de muestreo del IESTA. El material que aquí se presenta está basado en el libro *Model Assisted Survey Sampling* de Särndal, Swensson y Wretman.
 
 ## Nociones básicas sobre muestreo de poblaciones finitas {#Nociones-básicas-sobre-muestreo-de-poblaciones-finitas}
 
