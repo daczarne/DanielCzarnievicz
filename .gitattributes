@@ -87,5 +87,6 @@ content/portfolio/construcción-en-montevideo.html linguist-vendored
 content/portfolio/notas-aprendizaje-estadistico.html linguist-vendored
 content/portfolio/notas-muestreo.html linguist-vendored
 content/portfolio/tecnologías-de-la-información.html linguist-vendored
+content/portfolio/notes-on-machine-learning.html linguist-vendored
 
 *.Rmd linguist-detectable
