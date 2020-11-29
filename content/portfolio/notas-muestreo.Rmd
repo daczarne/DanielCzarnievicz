@@ -10,7 +10,7 @@ Resúmenes de los cursos de muestreo del Instituto de Estadística (IESTA - FCEA
 
 <!--more-->
 
-```{r setup,  echo=FALSE, message=FALSE, warning=FALSE}
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(
    echo = FALSE,
    message = FALSE,
