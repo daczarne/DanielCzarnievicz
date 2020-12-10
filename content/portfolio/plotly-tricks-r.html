@@ -1,0 +1,49 @@
+---
+date: '2020-04-13'
+draft: true
+image: img/portfolio/plotly_logo.jpg
+showonlyimage: false
+title: "Plotly tricks for R"
+weight: 2
+---
+
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/plotly-binding/plotly.js"></script>
+<script src="/rmarkdown-libs/typedarray/typedarray.min.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/plotly-main/plotly-latest.min.js"></script>
+<script src="/rmarkdown-libs/plotly-locale-es/es.js"></script>
+
+
+<p>Some useful Plotly tricks for R.</p>
+<!--more-->
+<p>Plotly.js is a JavaScript library for making interactive plots for the web. This library is also available for R and Python. I will not be covering the basics here. Plotly offers good documentation to getting started <a href="https://plotly.com/r/">here</a> and a complete reference manual <a href="https://plotly.com/r/reference/index/">here</a>. Also, Carson Sievert wrote a very good book, which you can find <a href="https://plotly-r.com/index.html">here</a>. I totally recommend reading it if you are interested in mastering Plotly and/or using it in your Shiny Apps.</p>
+<div id="plotly-config" class="section level3">
+<h3>Plotly Config</h3>
+<p>One thing that many people don’t know is that after you’ve added your <code>plotly::plot_ly</code>, <code>plotly::add_trace</code>s and <code>plotly::layout</code>, you also have the option to adding a <code>plotly::config</code>. This allows you to specify configuration settings for your plot. A very important is the ability to set the plots locale. This allows you to change the language of your plot and the way numbers are displayed.</p>
+<p>For example, below I plot <code>mpg</code> vs <code>disp</code> and set the local to Spanish. If you hover over you’ll see that the values have changed from, for example, 21.4 (English decimal notation) to 21,4 (Spanish decimal notation). Also, when you hover over the command icons, you’ll see that their names have changed from English to Spanish.</p>
+<pre class="r"><code>mtcars %&gt;% 
+   plotly::plot_ly() %&gt;% 
+   plotly::add_trace(
+      x = ~mpg,
+      y = ~disp,
+      type = &quot;scatter&quot;,
+      mode = &quot;markers&quot;
+   ) %&gt;% 
+   plotly::config(
+      locale = &quot;es&quot;
+   )</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"visdat":{"75c25a0a5e":["function () ","plotlyVisDat"]},"cur_data":"75c25a0a5e","attrs":{"75c25a0a5e":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"mpg"},"yaxis":{"domain":[0,1],"automargin":true,"title":"disp"},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false,"locale":"es"},"data":[{"x":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"y":[160,160,108,258,360,225,360,146.7,140.8,167.6,167.6,275.8,275.8,275.8,472,460,440,78.7,75.7,71.1,120.1,318,304,350,400,79,120.3,95.1,351,145,301,121],"type":"scatter","mode":"markers","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="colors" class="section level3">
+<h3>Colors</h3>
+</div>
+<div id="summaries" class="section level3">
+<h3>Summaries</h3>
+</div>

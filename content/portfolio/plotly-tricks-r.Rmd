@@ -1,0 +1,53 @@
+---
+date: '2020-04-13'
+draft: true
+image: img/portfolio/plotly_logo.jpg
+showonlyimage: false
+title: "Plotly tricks for R"
+weight: 2
+---
+
+Some useful Plotly tricks for R.
+
+<!--more-->
+
+```{r setup,  echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+   message = FALSE,
+   warning = FALSE,
+   eval = TRUE,
+   error = FALSE,
+   comment = ""
+)
+library(magrittr, quietly = TRUE)
+```
+
+Plotly.js is a JavaScript library for making interactive plots for the web. This library is also available for R and Python. I will not be covering the basics here. Plotly offers good documentation to getting started [here](https://plotly.com/r/) and a complete reference manual [here](https://plotly.com/r/reference/index/). Also, Carson Sievert wrote a very good book, which you can find [here](https://plotly-r.com/index.html). I totally recommend reading it if you are interested in mastering Plotly and/or using it in your Shiny Apps.
+
+### Plotly Config
+
+One thing that many people don't know is that after you've added your `plotly::plot_ly`, `plotly::add_trace`s and `plotly::layout`, you also have the option to adding a `plotly::config`. This allows you to specify configuration settings for your plot. A very important is the ability to set the plots locale. This allows you to change the language of your plot and the way numbers are displayed.
+
+For example, below I plot `mpg` vs `disp` and set the local to Spanish. If you hover over you'll see that the values have changed from, for example, 21.4 (English decimal notation) to 21,4 (Spanish decimal notation). Also, when you hover over the command icons, you'll see that their names have changed from English to Spanish.
+
+```{r}
+mtcars %>% 
+   plotly::plot_ly() %>% 
+   plotly::add_trace(
+      x = ~mpg,
+      y = ~disp,
+      type = "scatter",
+      mode = "markers"
+   ) %>% 
+   plotly::config(
+      locale = "es"
+   )
+```
+
+
+
+### Colors
+
+
+
+### Summaries
