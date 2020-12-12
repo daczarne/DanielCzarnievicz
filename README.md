@@ -13,4 +13,4 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4add2e59-6f9f-4243-9568-2e02c39b05c4/deploy-status)](https://app.netlify.com/sites/danielczarnievicz/deploys)
 
-Página personal creada con [R Blogdown](https://github.com/rstudio/blogdown) y [Hugo Creative Portfolio Theme](https://github.com/kishaningithub/hugo-creative-portfolio-theme).
+Code for my personal web page. Created with [R Blogdown](https://github.com/rstudio/blogdown) and [Hugo Creative Portfolio Theme](https://github.com/kishaningithub/hugo-creative-portfolio-theme).
