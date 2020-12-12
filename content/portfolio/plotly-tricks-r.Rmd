@@ -1,6 +1,6 @@
 ---
 date: '2020-04-13'
-draft: true
+draft: false
 image: img/portfolio/plotly_logo.jpg
 showonlyimage: false
 title: "Plotly tricks for R"
@@ -10,6 +10,13 @@ weight: 2
 Some useful Plotly tricks for R.
 
 <!--more-->
+
+```{css, echo=FALSE}
+.icon {
+   width: 20px !important;
+   height: 20px !important;
+}
+```
 
 ```{r setup,  echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(
@@ -26,28 +33,313 @@ Plotly.js is a JavaScript library for making interactive plots for the web. This
 
 ### Plotly Config
 
-One thing that many people don't know is that after you've added your `plotly::plot_ly`, `plotly::add_trace`s and `plotly::layout`, you also have the option to adding a `plotly::config`. This allows you to specify configuration settings for your plot. A very important is the ability to set the plots locale. This allows you to change the language of your plot and the way numbers are displayed.
+One thing that many people don't know is that after you've added your `plotly::plot_ly`, `plotly::add_trace`s and `plotly::layout`, you also have the option to adding a `plotly::config`. This allows you to specify configuration settings for your plot. A very important one is the ability to set the plots locale. This allows you to change the language of your plot and the way numbers are displayed.
 
 For example, below I plot `mpg` vs `disp` and set the local to Spanish. If you hover over you'll see that the values have changed from, for example, 21.4 (English decimal notation) to 21,4 (Spanish decimal notation). Also, when you hover over the command icons, you'll see that their names have changed from English to Spanish.
 
 ```{r}
-mtcars %>% 
+fig <- mtcars %>% 
    plotly::plot_ly() %>% 
    plotly::add_trace(
       x = ~mpg,
       y = ~disp,
       type = "scatter",
       mode = "markers"
-   ) %>% 
+   )
+fig %>% 
    plotly::config(
       locale = "es"
    )
 ```
 
+Another thing that is handled by the `plotly::config()` is the ModeBar. This is the line of icons that appears on the top-right corner of the plot. For example, if you set `displayModeBar` to `FALSE` then the bar won't be shown.
 
+```{r}
+fig %>% 
+   plotly::config(
+      locale = "es",
+      displayModeBar = FALSE
+   )
+```
+
+As you may have noticed the default behavior for the ModeBar is to be displayed on hover and setting it to `FALSE` hides it. But what if we need it to be always displayed. To achieve this we just need to set `displayModeBar` to `TRUE`.
+
+```{r}
+fig %>% 
+   plotly::config(
+      locale = "es",
+      displayModeBar = TRUE
+   )
+```
+
+Another useful feature of `plotly::config()` is the ability to choose which icons are shown (or more precisely, which ones should be removed). For this we need to pass a character vector to the `modeBarButtonsToRemove` argument. For example, here we remove all buttons, except the one for downloading the plot as a png (which will always be shown since it left `displayModeBar = TRUE`). Keep in mind that different traces have different buttons, so the list of buttons to include in the exclusion list will vary from trace to trace. You can check the complete list for each trace in the [Plotly.js GitHub repo]().
+
+```{r}
+fig %>% 
+   plotly::config(
+      locale = "es",
+      displayModeBar = TRUE,
+      modeBarButtonsToRemove = base::c(
+        "zoom2d",
+        "zoomIn2d",
+        "zoomOut2d",
+        "select2d",
+        "drawclosedpath",
+        "lasso2d",
+        "pan2d",
+        "drawrect",
+        "autoScale2d",
+        "hoverClosestCartesian",
+        "hoverCompareCartesian",
+        "toggleSpikelines",
+        "resetScale2d"
+      )
+   )
+```
+
+Lastly, what if we need to hide the plotly logo. There's an argument for that too. Just set `displaylogo = FALSE` and the plotly logo will not be shown.
+
+```{r}
+fig %>% 
+   plotly::config(
+      displaylogo = FALSE
+   )
+```
+
+### Factors
+
+When plotting categorical variables, it's important to set them as factors. This impacts how plotly will display the axis in which you plot them. For example, below we plot the number of cars for each number of cylinders (`cyl`). In the first plot we set `cyl` to a factor an plotly builds an x-axis that only displays this values (actually the labels). On the other hand, on the second plot we omit this step and, as you can see, since it's a numeric variable, plotly builds a numeric x-axis and thus, includes values like 3, 5, 7, and 9, which are not levels in the `mtcars` dataset.
+
+```{r}
+mtcars %>% 
+   dplyr::group_by(
+      cyl = forcats::as_factor(cyl)
+   ) %>% 
+   dplyr::tally() %>% 
+   plotly::plot_ly() %>% 
+   plotly::add_trace(
+      x = ~cyl,
+      y = ~n,
+      type = "bar"
+   )
+```
+
+```{r}
+mtcars %>% 
+   dplyr::group_by(
+      cyl
+   ) %>% 
+   dplyr::tally() %>% 
+   plotly::plot_ly() %>% 
+   plotly::add_trace(
+      x = ~cyl,
+      y = ~n,
+      type = "bar"
+   )
+```
+
+This becomes ever more important when the values in our dataset are not close to each other. For example, if we had 16 cylinder cars (not even sure if that's a thing), this value would be ploted far to the right of the other ones (4, 6, and 8).
+
+```{r}
+mtcars %>% 
+   dplyr::group_by(
+      cyl
+   ) %>% 
+   dplyr::tally() %>% 
+   dplyr::add_row(
+      cyl = 16,
+      n = 10
+   ) %>%
+   plotly::plot_ly() %>% 
+   plotly::add_trace(
+      x = ~cyl,
+      y = ~n,
+      type = "bar"
+   )
+```
+
+You might be thinking "I'll just set the `cyl` variable to be character", and you'd be right. Since the S3 class `factor` does not exist in JavaScript, when the R API calls the JS API it supplies the factor labels as the axis labels and the integer values of the internal R representation of the factor as the axis values.
+
+```{r}
+mtcars %>% 
+   dplyr::group_by(
+      cyl = base::as.character(cyl)
+   ) %>% 
+   dplyr::tally() %>% 
+   plotly::plot_ly() %>% 
+   plotly::add_trace(
+      x = ~cyl,
+      y = ~n,
+      type = "bar"
+   )
+```
+
+```{r}
+cylinders <- base::as.factor(mtcars[["cyl"]])
+cylinders
+base::unclass(cylinders)
+```
+
+That's because internally, factors are integer vectors, with a label attribute. You can read more about this in Hadley's Advanced R.
+
+```{r}
+base::typeof(cylinders)
+base::class(cylinders)
+base::attributes(cylinders)
+base::typeof(base::attributes(cylinders)[["levels"]])
+```
 
 ### Colors
 
+Ah colors!! If there's one thing that I think we can all agree on is how easy it is to map colors to different factor levels is `ggplot2`. By now you probably know about the `color` argument in plotly. What this does is to tell plotly that colores should be mapped to that variable.
 
+```{r}
+mtcars %>% 
+   dplyr::group_by(
+      cyl = forcats::as_factor(cyl)
+   ) %>% 
+   dplyr::tally() %>% 
+   plotly::plot_ly() %>% 
+   plotly::add_trace(
+      x = ~cyl,
+      y = ~n,
+      color = ~cyl,
+      type = "bar"
+   )
+```
 
-### Summaries
+What it does not do, is to tell plotly which colors should be mapped to each level. Assigning one color to each level is specially important when working with Shiny since the user might cause your data set to change (eg via a filter input) of when dynamically rendering many RMarkdown reports where a specific level may or may not appear in one or more of the reports. Not doing so causes your plots to have an inconsistent palette. Going back to our `mtcars` example, `cyl = 4` is shown in green, `cyl = 6` in red, and `cyl = 8` in blue. But, what happens if we filter out the level "4"?
+
+```{r}
+mtcars %>% 
+   dplyr::group_by(
+      cyl = forcats::as_factor(cyl)
+   ) %>% 
+   dplyr::tally() %>%
+   dplyr::filter(
+      cyl != "4"
+   ) %>% 
+   plotly::plot_ly() %>% 
+   plotly::add_trace(
+      x = ~cyl,
+      y = ~n,
+      color = ~cyl,
+      type = "bar"
+   )
+```
+
+Nothing? Well kind of. This is because the level "4" still exists in the factor.
+
+```{r}
+with_4 <- mtcars %>% 
+   dplyr::group_by(
+      cyl = forcats::as_factor(cyl)
+   ) %>% 
+   dplyr::tally()
+base::levels(with_4[["cyl"]])
+```
+
+```{r}
+without_value_4 <- mtcars %>% 
+   dplyr::group_by(
+      cyl = forcats::as_factor(cyl)
+   ) %>% 
+   dplyr::tally() %>% 
+   dplyr::filter(
+      cyl != "4"
+   )
+base::levels(without_value_4[["cyl"]])
+```
+
+But if the level "4" gets removed, the colors will change.
+
+```{r}
+without_level_4 <- mtcars %>% 
+   dplyr::filter(
+      cyl != 4
+   ) %>% 
+   dplyr::group_by(
+      cyl = forcats::as_factor(cyl)
+   ) %>% 
+   dplyr::tally()
+
+without_level_4 %>% 
+   plotly::plot_ly() %>% 
+   plotly::add_trace(
+      x = ~cyl,
+      y = ~n,
+      color = ~cyl,
+      type = "bar"
+   )
+```
+
+```{r}
+base::levels(without_level_4[["cyl"]])
+```
+
+So, how do we solve this? First we need to understand where did those colors came from. Besides the `color` argument, `plotly::plot_ly()` (or `plotly::add_trace()` in this case) has another argument called `colors`. This argument takes a vector of colors. By default, plotly is using the `RColorBrewer::brewer.pal()` function to generate it. This function takes two arguments, `n` which is the number of colors to request, and the name of the palette, by default `Set2`. You can see all the palettes in the [Color Brewer 2.0](https://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3) website. The number of colors to request is determined by the number of levels in our factor, but with a minimum of 3 and a maximum of 8 (for this specific palette).
+
+```{r}
+base::list(
+   "n = 1" = RColorBrewer::brewer.pal(n = 1, name = "Set2"),
+   "n = 3" = RColorBrewer::brewer.pal(n = 3, name = "Set2"),
+   "n = 4" = RColorBrewer::brewer.pal(n = 4, name = "Set2"),
+   "n = 8" = RColorBrewer::brewer.pal(n = 8, name = "Set2"),
+   "n = 9" = RColorBrewer::brewer.pal(n = 9, name = "Set2")
+)
+```
+
+That minimum and maximum values is what R is talking about when it returns warnings like:
+
+`In RColorBrewer::brewer.pal(N, "Set2") :
+  minimal value for n is 3, returning requested palette with 3 different levels`
+
+So, to solve this, let's create a vector of colors. Here I'll use Brewer, but it can be any HEX colors. The difference between what plotly does internally and our vector, is that ours is going to be a named vector!!
+
+```{r}
+plot_colors <- RColorBrewer::brewer.pal(n = 3, name = "Set2")
+base::names(plot_colors) <- base::c("4", "6", "8")
+plot_colors
+```
+
+Now it does not matter whether the value "4" is there or not, or if the level "4" is there or not either. Levels "6" and "8" will always get the same color. Just remember that the names in your color vector need to be the same as the factor labels.
+
+```{r}
+without_level_4 %>% 
+   plotly::plot_ly() %>% 
+   plotly::add_trace(
+      x = ~cyl,
+      y = ~n,
+      color = ~cyl,
+      type = "bar",
+      colors = plot_colors
+   )
+```
+
+```{r}
+without_value_4 %>% 
+   plotly::plot_ly() %>% 
+   plotly::add_trace(
+      x = ~cyl,
+      y = ~n,
+      color = ~cyl,
+      type = "bar",
+      colors = plot_colors
+   )
+```
+
+```{r}
+mtcars %>% 
+   dplyr::group_by(
+      cyl = forcats::as_factor(cyl)
+   ) %>% 
+   dplyr::tally() %>% 
+   plotly::plot_ly() %>% 
+   plotly::add_trace(
+      x = ~cyl,
+      y = ~n,
+      color = ~cyl,
+      type = "bar",
+      colors = plot_colors
+   )
+```
