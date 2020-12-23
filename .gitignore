@@ -40,7 +40,6 @@ vignettes/*.pdf
 
 # Other theme files
 /public/
-static/img/favicon.png
 
 # Other files
 DataSets/ENGIH/*.sav
