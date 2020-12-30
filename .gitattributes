@@ -91,3 +91,4 @@ content/portfolio/notes-on-machine-learning.html linguist-vendored
 content/portfolio/plotly-tricks-r.html linguist-vendored
 
 *.Rmd linguist-detectable
+*.md linguist-detectable
