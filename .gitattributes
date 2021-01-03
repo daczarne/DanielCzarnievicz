@@ -26,6 +26,7 @@ themes/hugo-creative-portfolio-theme/layouts/index.html linguist-vendored
 themes/hugo-creative-portfolio-theme/static/css/bootstrap.min.css linguist-vendored
 themes/hugo-creative-portfolio-theme/static/css/bootstrap.min.css.map linguist-vendored
 themes/hugo-creative-portfolio-theme/static/css/custom.css linguist-vendored
+themes/hugo-creative-portfolio-theme/static/css/fonts/fontawesome-webfont.svg linguist-vendored
 themes/hugo-creative-portfolio-theme/static/css/font-awesome.min.css linguist-vendored
 themes/hugo-creative-portfolio-theme/static/css/helper.css linguist-vendored
 themes/hugo-creative-portfolio-theme/static/css/owl.carousel.css linguist-vendored
@@ -48,6 +49,9 @@ themes/hugo-creative-portfolio-theme/static/js/jquery.min.js linguist-vendored
 themes/hugo-creative-portfolio-theme/static/js/jquery.scrollTo.min.js linguist-vendored
 themes/hugo-creative-portfolio-theme/static/js/masonry.pkgd.min.js linguist-vendored
 themes/hugo-creative-portfolio-theme/static/js/owl.carousel.min.js linguist-vendored
+
+themes/hugo-creative-portfolio-theme/archetypes/default.md linguist-vendored
+themes/hugo-creative-portfolio-theme/archetypes/porfolio.md linguist-vendored
 
 static/rmarkdown-libs/crosstalk/css/crosstalk.css linguist-vendored
 static/rmarkdown-libs/crosstalk/js/crosstalk.js linguist-vendored
@@ -93,3 +97,6 @@ content/portfolio/plotly-tricks-r.html linguist-vendored
 *.Rmd linguist-detectable
 *.md linguist-detectable
 *.md linguist-documentation=false
+*.sql linguist-detectable
+*.sql linguist-language=sql
+*.svg linguist-detectable
