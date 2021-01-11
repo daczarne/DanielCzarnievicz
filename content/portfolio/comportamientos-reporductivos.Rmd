@@ -1,5 +1,5 @@
 ---
-date: '2020-04-13'
+date: '2020-05-16'
 draft: false
 image: img/portfolio/punta-del-este.jpg
 showonlyimage: false
@@ -25,22 +25,20 @@ library(magrittr, quietly = TRUE)
 
 ```{r funciones}
 source(
-   file = here::here("DataSets/ENCoR/funciones_encor.R"),
+   file = here::here("datasets/encor/funciones_encor.R"),
    encoding = "UTF-8"
 )
 ```
 
 ```{r datos}
-encor <- readr::read_rds(file = here::here("DataSets/ENCoR/encor.rds"))
-metodos_anticonceptivos <- readr::read_rds(file = here::here("DataSets/ENCoR/metodos_anticonceptivos.rds"))
+encor <- readr::read_rds(file = here::here("datasets/encor/encor.rds"))
+metodos_anticonceptivos <- readr::read_rds(file = here::here("datasets/encor/metodos_anticonceptivos.rds"))
 ```
 
 ```{css, echo=FALSE}
 .plotly {
-   
    width: 100%;
    margin: 0 auto;
-   
 }
 ```
 
