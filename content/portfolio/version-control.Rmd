@@ -36,5 +36,5 @@ base::Sys.setlocale(category = "LC_TIME", locale = "English")
 ```
 
 ```{r fecha_revision}
-base::cat(base::paste0("Posted on: ", format(Sys.time(), "%B %d, %Y")))
+base::cat(base::paste0("Last updated on: ", format(Sys.time(), "%B %d, %Y")))
 ```

@@ -1,5 +1,5 @@
 ---
-date: '2020-04-13'
+date: '2020-12-10'
 draft: false
 image: img/portfolio/plotly_logo.jpg
 showonlyimage: false
@@ -342,4 +342,14 @@ mtcars %>%
       type = "bar",
       colors = plot_colors
    )
+```
+
+***
+
+```{r set_locale, include=FALSE, echo=FALSE}
+base::Sys.setlocale(category = "LC_TIME", locale = "English")
+```
+
+```{r fecha_revision, echo=FALSE}
+base::cat(base::paste0("Last updated on: ", format(Sys.time(), "%B %d, %Y")))
 ```

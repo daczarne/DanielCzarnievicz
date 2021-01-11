@@ -276,3 +276,13 @@ In the following links you can find the scripts for the different practice exerc
 - [Decision Trees](https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/05_trees)
 - [Bagging, Random Forest & Boosting](https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/06_ensemble_methods_for_trees)
 - [Neural Networks](https://github.com/daczarne/udelar_analisis_multivariado_2/tree/main/07_neural_networks)
+
+***
+
+```{r set_locale, include=FALSE, echo=FALSE}
+base::Sys.setlocale(category = "LC_TIME", locale = "English")
+```
+
+```{r fecha_revision, echo=FALSE}
+base::cat(base::paste0("Last updated on: ", format(Sys.time(), "%B %d, %Y")))
+```
