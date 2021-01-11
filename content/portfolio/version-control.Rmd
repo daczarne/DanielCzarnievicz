@@ -1,0 +1,40 @@
+---
+date: '2021-01-10'
+draft: false
+image: img/portfolio/git-and-github.jpg
+showonlyimage: true
+title: "Version Control"
+weight: 4
+---
+
+Notes on Version Control using Git and GitHub
+
+<!--more-->
+
+```{r setup,  echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+   echo = FALSE,
+   message = FALSE,
+   warning = FALSE,
+   eval = TRUE,
+   error = FALSE,
+   comment = ""
+)
+library(magrittr, quietly = TRUE)
+```
+
+Understanding how Version Control works is key when working with code. These notes are the result of courses I've taken on the subject, books I've read, YouTube videos I've watched, and countless StackOverflow questions that have helped through some messy commands.
+
+To be honest, I've prepared them so that I have a quick organized place to go to when I can't remember how to do something, but some friends and colleagues suggested I should put them out there so that they might help other people too. Just keep in mind that these notes are not thought out for people who don't know anything about Git and GitHub. They assume that you've been using Version Control for some time and that you have a working understanding of the basics.
+
+All that said, if you are interested in using them, you can find them [here](https://notes-on-git-and-github.netlify.app/).
+
+***
+
+```{r set_locale, include=FALSE}
+base::Sys.setlocale(category = "LC_TIME", locale = "English")
+```
+
+```{r fecha_revision}
+base::cat(base::paste0("Posted on: ", format(Sys.time(), "%B %d, %Y")))
+```
