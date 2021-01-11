@@ -180,7 +180,7 @@ plotly_personas_usos_tics <- function(.data, group_by_var, plotly_legend_y = -0.
 
 generar_data_usos_internet_por_tipo_de_uso <- function(.data, group_by_var, var_pattern) {
 
-   var_list <<- stringr::str_subset(
+   var_list <- stringr::str_subset(
       string = base::names(eutic),
       pattern = var_pattern
    )
@@ -195,7 +195,8 @@ generar_data_usos_internet_por_tipo_de_uso <- function(.data, group_by_var, var_
          pattern_var
       ) %>%
       dplyr::summarise(
-         n = base::sum(peso_hogar, na.rm = TRUE)
+         n = base::sum(peso_hogar, na.rm = TRUE),
+         .groups = "drop_last"
       ) %>%
       dplyr::mutate(
          proporcion = n / base::sum(n, na.rm = TRUE)
@@ -228,7 +229,8 @@ generar_data_usos_internet_por_tipo_de_uso <- function(.data, group_by_var, var_
                   pattern_var
                ) %>%
                dplyr::summarise(
-                  n = base::sum(peso_hogar, na.rm = TRUE)
+                  n = base::sum(peso_hogar, na.rm = TRUE),
+                  .groups = "drop_last"
                ) %>%
                dplyr::mutate(
                   proporcion = n / base::sum(n, na.rm = TRUE)
