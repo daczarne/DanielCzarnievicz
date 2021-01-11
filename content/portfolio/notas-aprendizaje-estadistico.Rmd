@@ -1,5 +1,5 @@
 ---
-date: '2020-04-13'
+date: '2020-05-27'
 draft: false
 title: "Notas sobre aprendizaje estadístico"
 weight: 0
@@ -279,3 +279,12 @@ Si te fueron de utilidad, podes encontrar la versión pdf de las mismas, y notas
 - [Análisis Discriminante](https://github.com/daczarne/udelar_analisis_multivariado_1/blob/master/03.%20An%C3%A1lisis%20Discriminante/Discriminante.pdf)
 - [Análisis Factorial](https://github.com/daczarne/udelar_analisis_multivariado_1/blob/master/04.%20An%C3%A1lisis%20Factorial/An%C3%A1lisis-factorial.pdf)
 
+***
+
+```{r set_locale, include=FALSE}
+base::Sys.setlocale(category = "LC_TIME", locale = "Spanish")
+```
+
+```{r fecha_revision}
+base::cat(base::paste0("Última revisión: ", format(Sys.time(), "%d de %B de %Y")))
+```
