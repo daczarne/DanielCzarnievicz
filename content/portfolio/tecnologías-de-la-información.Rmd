@@ -1,5 +1,5 @@
 ---
-date: '2020-05-01'
+date: '2020-05-16'
 draft: false
 image: img/portfolio/palmares-de-rocha.jpg
 showonlyimage: false
@@ -25,13 +25,13 @@ library(magrittr, quietly = TRUE)
 
 ```{r funciones}
 source(
-   file = here::here("DataSets/EUTIC/funciones_eutic.R"),
+   file = here::here("datasets/eutic/funciones_eutic.R"),
    encoding = "UTF-8"
 )
 ```
 
 ```{r datos}
-eutic <- readr::read_rds(file = here::here("DataSets/EUTIC/eutic.rds"))
+eutic <- readr::read_rds(file = here::here("datasets/eutic/eutic.rds"))
 ```
 
 ```{css, echo=FALSE}
