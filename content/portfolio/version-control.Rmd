@@ -2,7 +2,7 @@
 date: '2021-01-10'
 draft: false
 image: img/portfolio/git-and-github.jpg
-showonlyimage: true
+showonlyimage: false
 title: "Version Control"
 weight: 0
 ---
